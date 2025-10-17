@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FloatLabel } from 'primereact/floatlabel';
 
 import shoesImg from '../assets/airmax97.jpg';
@@ -38,20 +38,12 @@ function Login() {
             label="Đăng nhập"
           />
           <div className="flex flex-row justify-between w-full">
-            <Button
-              onClick={() => navigate('/forgotpassword')}
-              className="hover:underline text-[var(--primary-blue)]"
-              text
-              type="button"
-              label="Quên mật khẩu"
-            />
-            <Button
-              onClick={() => navigate('/register')}
-              className="hover:underline text-[var(--primary-blue)]"
-              text
-              type="button"
-              label="Đăng ký ngay"
-            />
+            <Link to="/forgotpassword" className="hover:underline text-[var(--primary-blue)]">
+              Quên mật khẩu
+            </Link>
+            <Link to="/register" className="hover:underline text-[var(--primary-blue)]">
+              Đăng ký
+            </Link>
           </div>
         </form>
       </div>
