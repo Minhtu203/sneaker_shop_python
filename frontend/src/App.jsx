@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Fragment, useEffect } from 'react';
 import 'primeicons/primeicons.css';
+import 'primereact/resources/themes/lara-light-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
 
 import { privateRoutes, publicRoutes } from '@/routes';
 import DefaultLayout from '@/layout/DefaultLayout';

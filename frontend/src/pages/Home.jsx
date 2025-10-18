@@ -12,7 +12,7 @@ function Home() {
     navigate('/login');
   };
 
-  return <div className="w-full h-screen">homepage</div>;
+  return <div className="w-full h-full">homepage</div>;
 }
 
 export default Home;

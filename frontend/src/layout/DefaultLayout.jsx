@@ -10,7 +10,7 @@ function DefaultLayout(props) {
       <Sidebar />
       <div className="flex flex-col flex-1">
         <Header />
-        <div className="flex-1 h-full">{props.children}</div>
+        <div className="flex-1 overflow-auto">{props.children}</div>
       </div>
     </div>
   );

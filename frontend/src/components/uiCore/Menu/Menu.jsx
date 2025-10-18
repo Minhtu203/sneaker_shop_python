@@ -1,7 +1,7 @@
 import { Menu as Menus } from 'primereact/menu';
 
-const Menu = (props) => {
-  return <Menus {...props} />;
+const Menu = ({ ...rest }) => {
+  return <Menus {...rest} />;
 };
 
 export default Menu;
