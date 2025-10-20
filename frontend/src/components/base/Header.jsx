@@ -7,6 +7,7 @@ import { logoutApi } from '@/api/auth/logoutApi';
 import { useNavigate } from 'react-router-dom';
 import { IconField } from '../uiCore/Form/IconField ';
 import { InputIcon, InputTextz } from '../uiCore/Form/InputIcon ';
+import userAvatar from '../../assets/userDefault.png';
 
 function Header({ toggleSidebar, setToggleSidebar }) {
   const { userInfo, clearUserInfo, setUserInfo } = useUserState();
@@ -46,11 +47,24 @@ function Header({ toggleSidebar, setToggleSidebar }) {
       />
       {/* input search */}
       <IconField iconPosition="left">
-        <InputIcon className="pi pi-search"> </InputIcon>
+        <InputIcon className="pi pi-search" />
         <InputTextz placeholder="Search" />
       </IconField>
 
-      <div className="flex flex-row items-center ml-auto">
+      <div className="flex gap-4 flex-row items-center ml-auto">
+        <Button
+          className="!text-[var(--primary-blue)] focus:!text-[var(--primary-blue)] !text-12 !p-[1.2rem] focus:!shadow-[0_0_0_0.2rem_rgba(99,102,241,0.5)]"
+          icon="pi pi-bell"
+          rounded
+          outlined
+          severity="warning"
+          aria-label="Notification"
+        />
+        <img
+          alt="user"
+          src={userInfo?.avatar ? userInfo?.avatar : userAvatar}
+          className="w-12 h-12 rounded-[50%]"
+        />
         <ButtonSidebar
           onClick={(e) => menu.current.toggle(e)}
           label={userInfo?.username}

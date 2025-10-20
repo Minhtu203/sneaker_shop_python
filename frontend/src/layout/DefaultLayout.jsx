@@ -14,7 +14,9 @@ function DefaultLayout(props) {
       <div className="flex flex-col w-full h-full">
         <Header toggleSidebar={toggleSidebar} setToggleSidebar={setToggleSidebar} />
         <div
-          className={`flex-1 overflow-auto h-full ${toggleSidebar ? 'ml-[var(--width-sidebar)]' : 'ml-0'} transition-all duration-500 ease-in-out`}
+          className={`overflow-auto h-screen
+             ${toggleSidebar ? 'ml-[var(--width-sidebar)]' : 'ml-0'}
+           transition-all duration-500 ease-in-out`}
         >
           {props.children}
         </div>

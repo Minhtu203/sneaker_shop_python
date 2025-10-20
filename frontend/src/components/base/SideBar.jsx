@@ -1,6 +1,6 @@
 import logo from '../../assets/logoShoes.png';
 import { Sidebar as Sidebarz } from 'primereact/sidebar';
-import { ButtonSidebar } from '../uiCore/Button/Button';
+import Button, { ButtonSidebar } from '../uiCore/Button/Button';
 
 function Sidebar({ toggleSidebar }) {
   return (
@@ -14,13 +14,24 @@ function Sidebar({ toggleSidebar }) {
         <ButtonSidebar noIcon={true} onClick={() => console.log(988888)}>
           Home
         </ButtonSidebar>
+        <ButtonSidebar>Jordan</ButtonSidebar>
+        <ButtonSidebar>Golf</ButtonSidebar>
+        <ButtonSidebar>Bóng rổ</ButtonSidebar>
+        <ButtonSidebar>Training & Gym</ButtonSidebar>
         <ButtonSidebar>Thể thao</ButtonSidebar>
-        <ButtonSidebar>Trẻ em</ButtonSidebar>
-        <ButtonSidebar>Thể thao</ButtonSidebar>
-        <ButtonSidebar>Thể thao</ButtonSidebar>
+        <ButtonV2 label="asdf" />
       </div>
     </div>
   );
 }
 
 export default Sidebar;
+
+const ButtonV2 = ({ className, ...props }) => {
+  return (
+    <Button
+      className={`${className} hover:scale-110 !bg-gradient-to-r !from-[#274480] to-[#4C6AB0] !transition-all !duration-200`}
+      {...props}
+    />
+  );
+};
