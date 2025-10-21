@@ -56,10 +56,10 @@ export const authController = {
     return jwt.sign(
       {
         id: user.id,
-        admin: user.admin,
+        role: user.role,
       },
       process.env.MY_ACCESS_KEY,
-      { expiresIn: "10s" }
+      { expiresIn: "30m" }
     );
   },
   generateRefreshToken: (user) => {

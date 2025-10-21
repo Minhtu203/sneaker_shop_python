@@ -1,13 +1,13 @@
 import { useRef } from 'react';
-import { Button, InputText, Menu } from '../uiCore/index';
-import { useUserState } from '@/store/userState';
-import { ButtonSidebar } from '../uiCore/Button/Button';
-import { CreateAxios } from '@/lib/axios';
-import { logoutApi } from '@/api/auth/logoutApi';
 import { useNavigate } from 'react-router-dom';
-import { IconField } from '../uiCore/Form/IconField ';
-import { InputIcon, InputTextz } from '../uiCore/Form/InputIcon ';
+
+import { CreateAxios } from '@/lib/axios';
+import { useUserState } from '@/store/userState';
+import { logoutApi } from '@/api/auth/logoutApi';
 import userAvatar from '../../assets/userDefault.png';
+import { ButtonSidebar } from '../uiCore/Button/Button';
+import { InputIcon, InputTextz } from '../uiCore/Form/InputIcon ';
+import { Button, Menu, OverlayPanel, IconField } from '../uiCore/index';
 
 function Header({ toggleSidebar, setToggleSidebar }) {
   const { userInfo, clearUserInfo, setUserInfo } = useUserState();
@@ -32,6 +32,7 @@ function Header({ toggleSidebar, setToggleSidebar }) {
     },
   ];
   const menu = useRef(null);
+  const op = useRef(null);
 
   return (
     <div
@@ -45,7 +46,7 @@ function Header({ toggleSidebar, setToggleSidebar }) {
         aria-label="Filter"
         onClick={() => setToggleSidebar(!toggleSidebar)}
       />
-      {/* input search */}
+      {/* search box */}
       <IconField iconPosition="left">
         <InputIcon className="pi pi-search" />
         <InputTextz placeholder="Search" />
@@ -53,17 +54,26 @@ function Header({ toggleSidebar, setToggleSidebar }) {
 
       <div className="flex gap-4 flex-row items-center ml-auto">
         <Button
-          className="!text-[var(--primary-blue)] focus:!text-[var(--primary-blue)] !text-12 !p-[1.2rem] focus:!shadow-[0_0_0_0.2rem_rgba(99,102,241,0.5)]"
+          className="!text-[var(--primary-blue)] focus:!text-[var(--primary-blue)] !text-12 !p-[1.3rem] focus:!shadow-[0_0_0_0.2rem_rgba(99,102,241,0.5)]"
           icon="pi pi-bell"
           rounded
           outlined
           severity="warning"
           aria-label="Notification"
+          onClick={(e) => op.current.toggle(e)}
         />
+        <OverlayPanel ref={op}>
+          <img
+            src={'https://primefaces.org/cdn/primereact/images/product/bamboo-watch.jpg'}
+            alt="Bamboo Watch"
+          />
+        </OverlayPanel>
+
         <img
           alt="user"
           src={userInfo?.avatar ? userInfo?.avatar : userAvatar}
-          className="w-12 h-12 rounded-[50%]"
+          className="w-12 h-12 rounded-[50%] hover:cursor-pointer"
+          onClick={() => console.log(44444)}
         />
         <ButtonSidebar
           onClick={(e) => menu.current.toggle(e)}

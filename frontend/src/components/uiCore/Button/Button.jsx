@@ -12,8 +12,8 @@ export const ButtonSidebar = (props) => {
   return (
     <button
       onClick={handleClick}
-      className={`${className} px-4 flex justify-between ml-auto items-center w-full h-12 rounded-md text-[var(--primary-blue)] bg-white hover:bg-blue-50
-       hover:text-[var(--primary-yellow)] hover:scale-110 hover:cursor-pointer focus:text-[var(--primary-yellow)] !transition-all !duration-200`}
+      className={`${className} px-4 flex justify-between ml-auto items-center w-full h-12 rounded-md text-[var(--primary-blue)] bg-white hover:bg-[var(--primary-blue)]
+       hover:text-[var(--primary-yellow)] hover:scale-110 hover:cursor-pointer focus:text-[var(--primary-yellow)] !transition-all !duration-200 font-bold text-md`}
       {...prop}
     >
       {props.children}

@@ -26,8 +26,10 @@ app.use(cookieParser());
 // import routes
 import authRoutes from "./src/routes/authRoutes.js";
 import userRoutes from "./src/routes/userRoutes.js";
+import shoesRoutes from "./src/routes/shoesRoutes.js";
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/shoes", shoesRoutes);
 
 app.listen(PORT, () => console.log(`✅ Server is running on ${PORT}`));
