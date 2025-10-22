@@ -20,8 +20,8 @@ router.post(
   authController.logoutUser
 );
 
-router.post("/forgot-password", authController.forgotPassword); // forgot password
+router.post("/forgotPassword", authController.forgotPassword); // forgot password
 
-router.post("/reset-password", authController.resetPassword); // reset pword
+router.post("/resetPassword", authController.resetPassword); // reset pw
 
 export default router;

@@ -4,3 +4,7 @@ export { default as Button } from './Button/Button';
 export { default as Menu } from './Menu/Menu';
 export { default as OverlayPanel } from './Overlay/OverlayPanel';
 export { default as Galleria } from './Media/Image';
+export { default as DataTable } from './Data/DataTable';
+export { default as Column } from './Data/Column';
+export { default as DropDown } from './Form/DropDown';
+export { default as Toast } from './Messages/Toast';

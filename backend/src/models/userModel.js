@@ -34,9 +34,12 @@ const userSchema = new mongoose.Schema(
       trim: true,
       required: true,
     },
+    avatar: { type: String, trim: true },
     password: { type: String, required: true, trim: true },
     role: { type: String, default: "user" },
     shopping_cart: [cartItemSchema],
+    resetOtp: { type: String },
+    resetOtpExpires: { type: Date },
   },
   { timestamps: true }
 );

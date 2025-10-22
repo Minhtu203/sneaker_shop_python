@@ -45,7 +45,7 @@ export const authController = {
 
       //save to DB
       const user = await newUser.save();
-      res.status(200).json(user);
+      res.status(200).json({ success: true, data: user });
     } catch (error) {
       res.status(500).json(error);
     }
@@ -66,7 +66,7 @@ export const authController = {
     return jwt.sign(
       {
         id: user.id,
-        admin: user.admin,
+        role: user.role,
       },
       process.env.MY_REFRESH_ACCESS_KEY,
       { expiresIn: "30d" }
@@ -118,7 +118,7 @@ export const authController = {
       if (err) {
         console.log(err);
       }
-      refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+      // refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
 
       //create new accessToken, refreshToken
       const newAccessToken = authController.generateAccessToken(user);
@@ -136,7 +136,11 @@ export const authController = {
   },
 
   logoutUser: async (req, res) => {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) return res.status(400).json("No refresh token found");
     try {
+      refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+
       res.clearCookie("refreshToken");
       refreshTokens = refreshTokens.filter(
         (token) => token !== req.cookies.refreshToken
@@ -148,10 +152,12 @@ export const authController = {
   },
   forgotPassword: async (req, res) => {
     try {
-      const { account } = req.body;
-      const user = await User.findOne({ account });
+      const { username } = req.body;
+      const user = await User.findOne({ username });
       if (!user) {
-        res.status(404).json({ message: "Account không tồn tại" });
+        res
+          .status(404)
+          .json({ success: false, message: "Username không tồn tại" });
       }
 
       // create OTP
@@ -163,14 +169,17 @@ export const authController = {
       // send email
       await transporter.sendMail({
         from: process.env.EMAIL_USER,
-        to: email,
-        subject: "OTP đặt lại mật khẩu",
+        to: user.email,
+        subject: "OTP đặt lại mật khẩu - SneakerT",
         html: `<h2>Mã OTP của bạn là: ${otp}</h2>
-                <h4>Mã OTP sẽ hết hạn sau 5 phút.</h4>`,
+                <h4>Mã OTP sẽ hết hạn sau 5 phút</h4>`,
       });
-      res.json("OTP đã được gửi vào email");
+      res.status(200).json({
+        success: true,
+        message: `OTP đã được gửi vào email ${user.email}`,
+      });
     } catch (error) {
-      res
+      return res
         .status(500)
         .json({ message: "forgotPassword failed", error: error.message });
     }
@@ -181,11 +190,20 @@ export const authController = {
       const { email, otp, newPassword } = req.body;
       const user = await User.findOne({ email });
 
-      if (!user || user.resetOtp !== otp || Date.now() > user.resetOtpExpires) {
+      if (!user)
         return res
-          .status(400)
-          .json({ message: "OTP không hợp lệ hoặc đã hết hạn" });
-      }
+          .status(404)
+          .json({ success: false, message: "Tài khoản không tồn tại" });
+
+      if (user.resetOtp !== otp)
+        return res
+          .status(404)
+          .json({ success: false, message: "OTP không hợp lệ" });
+
+      if (Date.now() > user.resetOtpExpires)
+        return res
+          .status(404)
+          .json({ success: false, message: "OTP đã hết hạn" });
 
       // Băm mật khẩu mới
       const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -196,7 +214,7 @@ export const authController = {
       user.resetOtpExpires = undefined;
       await user.save();
 
-      res.json({ message: "Đặt lại mật khẩu thành công" });
+      res.json({ success: true, message: "Đặt lại mật khẩu thành công" });
     } catch (error) {
       res
         .status(500)

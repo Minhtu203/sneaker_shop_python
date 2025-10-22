@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { getShoesById } from '@/api/auth/shoesDetailApi';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useUserState } from '@/store/userState';
 import { CreateAxios } from '@/lib/axios';
 import { Galleria } from '@/components/uiCore/index';
+import { Textz } from '@/components/base/Textz';
 
 const ShoeGallery = ({ shoe, props }) => {
   const itemTemplate = (item) => {
@@ -16,15 +17,6 @@ const ShoeGallery = ({ shoe, props }) => {
       />
     );
   };
-  // const thumbnailTemplate = (item) => {
-  //   return (
-  //     <img
-  //       src={item}
-  //       alt="Shoe thumbnail"
-  //       style={{ width: '100%', height: '50px', objectFit: 'cover' }}
-  //     />
-  //   );
-  // };
   return (
     <div className="card">
       <Galleria
@@ -42,7 +34,7 @@ const ShoeGallery = ({ shoe, props }) => {
 
 export default function ShoesDetail() {
   const { userInfo, setUserInfo } = useUserState();
-  let axiosJWT = CreateAxios(userInfo, setUserInfo);
+  let axiosJWT = useMemo(() => CreateAxios(userInfo, setUserInfo), [userInfo]);
   const { id } = useParams();
   const [data, setData] = useState({});
 
@@ -56,24 +48,24 @@ export default function ShoesDetail() {
       }
     };
     fetchData();
-  }, [userInfo, id, axiosJWT]);
+  }, [userInfo]);
 
   return (
-    <div className="flex flex-row p-4 gap-16">
-      <div className="w-2/5">
+    <div className="flex flex-row p-4 gap-16 h-full">
+      <div className="w-2/5 sticky top-0 h-full">
         <ShoeGallery shoe={data} />
       </div>
-      <div className=" w-3/5 p-8 flex flex-col">
-        <span className="text-2xl ">{data.name}</span>
-        <span className="text-md mb-2">{data.gender}</span>
-        <span className="text-md font-[600] mb-4">{data?.price?.toLocaleString('vi-VN')}₫</span>
+      <div className="w-3/5 p-8 flex flex-col overflow-y-auto h-full">
+        <Textz className="text-2xl">{data.name}</Textz>
+        <Textz className="mb-2">{data.gender}</Textz>
+        <Textz className="mb-4 font-[600]">{data?.price?.toLocaleString('vi-VN')}₫</Textz>
         <div className="flex flex-row gap-2">
           {data?.colors?.map((d, index) => (
             <span
               key={index}
-              className={`w-10 h-10 rounded-md`}
+              className={`w-10 h-10 rounded-md hover:cursor-pointer`}
               style={{ backgroundColor: d.color }}
-            ></span>
+            />
           ))}
         </div>
       </div>

@@ -9,7 +9,6 @@ export const logoutApi = async (userId, clearUserInfo, accessToken, axiosJWT) =>
       }
     );
     clearUserInfo();
-    console.log(111111, accessToken);
   } catch (error) {
     console.log(error.message);
   }

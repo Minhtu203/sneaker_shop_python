@@ -42,20 +42,20 @@ function Login() {
           <InputText
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            label="Tài khoản"
+            label="Username"
           />
           <InputPassword value={password} setPassword={setPassword} type={'password'} />
           <Button
             type="submit"
             style={{ backgroundColor: 'var(--primary-blue)', color: 'var(--light)' }}
-            label="Đăng nhập"
+            label="Submit"
           />
           <div className="flex flex-row justify-between w-full">
             <Link to="/forgotpassword" className="hover:underline text-[var(--primary-blue)]">
-              Quên mật khẩu
+              Forgotten password
             </Link>
             <Link to="/register" className="hover:underline text-[var(--primary-blue)]">
-              Đăng ký
+              Register
             </Link>
           </div>
         </form>
@@ -88,7 +88,7 @@ export const InputPassword = ({ password, setPassword, className }) => {
           className="w-full h-12 rounded-md p-4 border-2 border-[var(--primary-blue)] outline-none"
         />
         <label htmlFor="password" className="text-[var(--primary-blue)] flex flex-row ml-2">
-          Mật khẩu
+          Password
         </label>
       </FloatLabel>
 

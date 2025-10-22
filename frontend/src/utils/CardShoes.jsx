@@ -14,7 +14,7 @@ const CardShoes = ({ shoe }) => {
         <span className="font-bold text-xl text-[var(--primary-blue)]">{shoe?.name}</span>
         <span className="font-bold text-md text-[var(--primary-blue)]">{shoe?.gender}</span>
         <span className="font-bold text-md text-[var(--primary-yellow)]">
-          {shoe?.price?.toLocaleString('vi-VN')} VND
+          {shoe?.price?.toLocaleString('vi-VN')}₫
         </span>
       </div>
     </div>

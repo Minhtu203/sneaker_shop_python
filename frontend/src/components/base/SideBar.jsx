@@ -3,11 +3,14 @@ import { Sidebar as Sidebarz } from 'primereact/sidebar';
 import Button, { ButtonSidebar } from '../uiCore/Button/Button';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useUserState } from '@/store/userState';
 
 function Sidebar({ toggleSidebar }) {
   const navigate = useNavigate();
   const [sport, setSport] = useState(false);
   const location = useLocation();
+  const { userInfo } = useUserState();
+  // console.log(111, userInfo?.role);
 
   return (
     <div
@@ -22,7 +25,7 @@ function Sidebar({ toggleSidebar }) {
           onClick={() => navigate('/')}
           className={`${location.pathname === '/' ? 'text-[var(--primary-yellow)] !bg-[var(--primary-blue)]' : ''}`}
         >
-          Trang chủ
+          Home
         </ButtonSidebar>
         <ButtonSidebar
           noIcon={true}
@@ -42,17 +45,26 @@ function Sidebar({ toggleSidebar }) {
         >
           Nike
         </ButtonSidebar>
-        <ButtonSidebar onClick={() => setSport(!sport)}>Thể thao</ButtonSidebar>
+        <ButtonSidebar onClick={() => setSport(!sport)}>Sport</ButtonSidebar>
         <ShowNavSidebar
           show={sport}
           className={`${location.pathname === '/sport' ? 'text-[var(--primary-yellow)] !bg-[var(--primary-blue)]' : ''}`}
         >
-          <ButtonV3>Bóng rổ</ButtonV3>
-          <ButtonV3>Bóng đá</ButtonV3>
+          <ButtonV3>Basketball</ButtonV3>
+          <ButtonV3>Football</ButtonV3>
           <ButtonV3>Golf</ButtonV3>
           <ButtonV3>Tennis</ButtonV3>
         </ShowNavSidebar>
-        {/* <ButtonV2 label="test" /> */}
+
+        {userInfo?.role === 'admin' && (
+          <ButtonSidebar
+            onClick={() => navigate('/shoes/onlyAdmin')}
+            noIcon={true}
+            className={`${location.pathname === '/shoes/onlyAdmin' ? 'text-[var(--primary-yellow)] !bg-[var(--primary-blue)]' : ''}`}
+          >
+            Only Admin
+          </ButtonSidebar>
+        )}
       </div>
     </div>
   );

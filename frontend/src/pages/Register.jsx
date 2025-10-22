@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logoShoes.png';
 import { useState } from 'react';
 import { Button, InputText } from '@/components/uiCore/index';
+import { registerApi } from '@/api/auth/registerApi';
+import { InputPassword } from './Login';
 
 function Register() {
   const navigate = useNavigate();
@@ -11,7 +13,8 @@ function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ account, password, email });
+    const data = { username: account, password, email };
+    registerApi(data);
   };
 
   return (
@@ -27,17 +30,13 @@ function Register() {
           className="flex items-center justify-center gap-2 absolute top-2 left-4 hover:underline hover:cursor-pointer text-[var(--primary-blue)]"
         >
           <span className="pi pi-angle-left"></span>
-          Đăng nhập
+          Log in
         </button>
-        <span className="font-bold text-2xl text-[var(--primary-blue)]">Đăng ký</span>
+        <span className="font-bold text-2xl text-[var(--primary-blue)]">Register</span>
         <InputText value={account} onChange={(e) => setAccount(e.target.value)} label="Tài khoản" />
-        <InputText
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          label="Mật khẩu"
-        />
+        <InputPassword password={password} setPassword={setPassword} label="Password" />
         <InputText value={email} onChange={(e) => setEmail(e.target.value)} label="Email" />
-        <Button type="submit" label="Xác nhận" className="bg-[var(--primary-yellow)]" />
+        <Button type="submit" label="Submit" className="!bg-[var(--primary-yellow)]" />
       </form>
     </div>
   );

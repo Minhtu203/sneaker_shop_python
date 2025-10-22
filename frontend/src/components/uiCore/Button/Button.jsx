@@ -28,9 +28,10 @@ export const ButtonSidebar = (props) => {
   );
 };
 
-const Button = ({ className, ...props }) => {
+const Button = (props) => {
+  const { className, ...prop } = props;
   return (
-    <Buttons className={`${className} w-full h-12 rounded-md text-[var(--light)]`} {...props} />
+    <Buttons className={`${className} w-full h-12 rounded-md text-[var(--light)]`} {...prop} />
   );
 };
 

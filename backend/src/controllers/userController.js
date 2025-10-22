@@ -54,4 +54,22 @@ export const userController = {
       });
     }
   },
+  // get all users
+  getAllUsers: async (req, res) => {
+    try {
+      const users = await User.find();
+      const data = users.map((u) => ({
+        _id: u._id,
+        username: u.username,
+        email: u.email,
+        role: u.role,
+        avatar: u.avatar,
+      }));
+      res.status(200).json({ success: true, data: data });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
 };

@@ -41,3 +41,41 @@ body {
     @apply bg-purple-300 scale-110;
   }
 }
+
+/* --- HEADER MẶC ĐỊNH --- */
+.p-datatable .p-column-header-content {
+  color: var(--primary-blue);
+  font-weight: 700;
+  transition: color 0.2s ease-in-out;
+}
+
+/* --- ICON SORT MẶC ĐỊNH --- */
+.p-datatable .p-sortable-column .p-sortable-column-icon {
+  color: var(--primary-blue);
+  opacity: 0.8;
+  transition: color 0.2s ease-in-out, opacity 0.2s;
+}
+
+/* --- KHI HOVER HEADER --- */
+.p-datatable .p-sortable-column:hover .p-column-header-content {
+  color: var(--primary-yellow);
+}
+
+.p-datatable .p-sortable-column:hover .p-sortable-column-icon {
+  color: var(--primary-yellow);
+  opacity: 1;
+}
+
+/* --- KHI ĐANG SORT --- */
+.p-datatable .p-sortable-column.p-highlight {
+  background-color: var(--primary-blue) !important;
+}
+
+.p-datatable .p-sortable-column.p-highlight .p-column-header-content {
+  color: var(--primary-yellow) !important;
+}
+
+.p-datatable .p-sortable-column.p-highlight .p-sortable-column-icon {
+  color: var(--primary-yellow) !important;
+  opacity: 1;
+}
