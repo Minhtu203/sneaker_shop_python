@@ -1,20 +1,23 @@
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logoShoes.png';
 import { useState } from 'react';
-import { Button, InputText } from '@/components/uiCore/index';
+import { Button, InputText, Toast } from '@/components/uiCore/index';
 import { registerApi } from '@/api/auth/registerApi';
 import { InputPassword } from './Login';
+import { Toastz } from '@/utils/Toast';
 
-function Register() {
+function Register({ toast }) {
   const navigate = useNavigate();
   const [account, setAccount] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const data = { username: account, password, email };
-    registerApi(data);
+    const res = await registerApi(data);
+    Toastz(res.data, toast);
+    if (res.data.success === true) navigate('/login');
   };
 
   return (

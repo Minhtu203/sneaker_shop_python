@@ -32,4 +32,4 @@ app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/shoes", shoesRoutes);
 
-app.listen(PORT, () => console.log(`✅ Server is running on ${PORT}`));
+app.listen(PORT, () => console.log(`Server is running on ${PORT}`));

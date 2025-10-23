@@ -39,8 +39,6 @@ export default function UserSection(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deleteUser]);
 
-  console.log(222, allUsers?.length);
-
   return (
     <div className={`${className} flex flex-col`} {...prop}>
       <DataTable value={allUsers} action setDelete={setDeleteUser} totalRecords={allUsers?.length}>

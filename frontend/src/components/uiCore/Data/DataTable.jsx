@@ -1,11 +1,9 @@
 import { DataTable as DataTables } from 'primereact/datatable';
 import Column from './Column';
 import Button from '../Button/Button';
-import { useState } from 'react';
 
 const DataTable = (props) => {
   const { action, setDelete, totalRecords, ...prop } = props;
-  // const [first, setFirst] = useState(0);
 
   return (
     <DataTables

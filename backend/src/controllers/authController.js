@@ -26,14 +26,26 @@ export const authController = {
       const { username, email, password } = req.body;
 
       if (!username || !email || !password) {
-        res.status(400).json({ message: "Vui lòng nhập đầy đủ thông tin." });
+        res
+          .status(400)
+          .json({ success: false, message: "Vui lòng nhập đầy đủ thông tin." });
       }
       if (password.length < 8 || password.length > 16) {
-        res.status(400).json({ message: "Mật khẩu phải dài 8-16 kí tự." });
+        res
+          .status(400)
+          .json({ success: false, message: "Mật khẩu phải dài 8-16 kí tự." });
       }
-      const existingUser = await User.findOne({ email });
+      const existingUser = await User.findOne({ username });
       if (existingUser) {
-        res.status(409).json({ message: "Email đã được đăng ký." });
+        res
+          .status(409)
+          .json({ success: false, message: "Username đã được đăng ký." });
+      }
+      const existingEmail = await User.findOne({ email });
+      if (existingEmail) {
+        res
+          .status(409)
+          .json({ success: false, message: "Email đã được đăng ký." });
       }
 
       // hask password
@@ -45,7 +57,11 @@ export const authController = {
 
       //save to DB
       const user = await newUser.save();
-      res.status(200).json({ success: true, data: user });
+      res.status(200).json({
+        success: true,
+        data: user,
+        message: "Đăng ký tài khoản thành công",
+      });
     } catch (error) {
       res.status(500).json(error);
     }
@@ -187,13 +203,13 @@ export const authController = {
 
   resetPassword: async (req, res) => {
     try {
-      const { email, otp, newPassword } = req.body;
-      const user = await User.findOne({ email });
+      const { username, otp, newPassword } = req.body;
+      const user = await User.findOne({ username });
 
       if (!user)
         return res
           .status(404)
-          .json({ success: false, message: "Tài khoản không tồn tại" });
+          .json({ success: false, message: "Username is not exists" });
 
       if (user.resetOtp !== otp)
         return res

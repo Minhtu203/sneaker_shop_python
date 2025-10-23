@@ -13,3 +13,16 @@ export const forgotPasswordApi = async (username) => {
     };
   }
 };
+
+export const resetPasswordApi = async (username, otp, newPassword) => {
+  try {
+    const res = await postData('/api/auth/resetPassword', {
+      username: username,
+      otp: otp,
+      newPassword: newPassword,
+    });
+    return res;
+  } catch (error) {
+    if (error.response) return error.response;
+  }
+};

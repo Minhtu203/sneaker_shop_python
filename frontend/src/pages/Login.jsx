@@ -8,7 +8,7 @@ import { Button, InputText } from '@/components/uiCore/index';
 import { loginApi } from '@/api/auth/loginApi';
 import { useUserState } from '@/store/userState';
 
-function Login() {
+function Login({ toast }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();

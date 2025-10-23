@@ -8,3 +8,5 @@ export { default as DataTable } from './Data/DataTable';
 export { default as Column } from './Data/Column';
 export { default as DropDown } from './Form/DropDown';
 export { default as Toast } from './Messages/Toast';
+export { default as Dialog } from './Overlay/Dialog';
+export { default as InputOtp } from './Form/InputOtp';
