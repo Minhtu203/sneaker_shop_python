@@ -6,6 +6,10 @@ import { useUserState } from '@/store/userState';
 import React, { useEffect, useState } from 'react';
 
 export default function ShoppingCart() {
+  useEffect(() => {
+    document.title = 'Cart';
+  }, []);
+
   const { userInfo, setUserInfo } = useUserState();
   let axiosJWT = CreateAxios(userInfo, setUserInfo);
   const [allShoes, setAllShoes] = useState([]);
@@ -47,7 +51,10 @@ const CardCart = (props) => {
     >
       <span className="text-gray-400">{index}</span>
       <img alt="Shoes" src={data?.color?.img?.[0]} className="w-32 h-32 rounded-2xl" />
-      <Textz>{}</Textz>
+      <div className="flex flex-col">
+        <Textz>{data?.productId?.name}</Textz>
+        <Textz className="text-xs">{data?.productId?.brand}</Textz>
+      </div>
     </div>
   );
 };

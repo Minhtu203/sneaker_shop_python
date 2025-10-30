@@ -5,6 +5,10 @@ import CardShoes from '@/utils/CardShoes';
 import { useEffect, useState } from 'react';
 
 function Home() {
+  useEffect(() => {
+    document.title = 'Home - SneakerT';
+  }, []);
+
   const { userInfo, setUserInfo } = useUserState();
   const [allShoes, setAllShoes] = useState([]);
 

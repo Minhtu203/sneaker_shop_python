@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { FloatLabel } from 'primereact/floatlabel';
@@ -10,6 +10,10 @@ import { useUserState } from '@/store/userState';
 import { Toastz } from '@/utils/Toast';
 
 function Login({ toast }) {
+  useEffect(() => {
+    document.title = 'SneakerT - Login';
+  }, []);
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -41,11 +45,7 @@ function Login({ toast }) {
           className="flex flex-col gap-7 items-center rounded-2xl justify-center shadow-2xl w-1/2 px-12 py-15"
         >
           <img className="w-30 h-30" alt="logo" src={logo} />
-          <InputText
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            label="Username"
-          />
+          <InputText value={username} onChange={(e) => setUsername(e.target.value)} label="Username" />
           <InputPassword value={password} setPassword={setPassword} type={'password'} />
           <Button
             type="submit"

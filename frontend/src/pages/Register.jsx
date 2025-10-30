@@ -1,12 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logoShoes.png';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, InputText, Toast } from '@/components/uiCore/index';
 import { registerApi } from '@/api/auth/registerApi';
 import { InputPassword } from './Login';
 import { Toastz } from '@/utils/Toast';
 
 function Register({ toast }) {
+  useEffect(() => {
+    document.title = 'SneakerT - Register';
+  }, []);
+
   const navigate = useNavigate();
   const [account, setAccount] = useState('');
   const [password, setPassword] = useState('');

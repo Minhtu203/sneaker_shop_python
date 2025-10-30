@@ -5,6 +5,10 @@ import CardShoes from '@/utils/CardShoes';
 import { useEffect, useState } from 'react';
 
 function JordanShoes() {
+  useEffect(() => {
+    document.title = 'Jordan';
+  }, []);
+
   const { userInfo, setUserInfo } = useUserState();
   let axiosJWT = CreateAxios(userInfo, setUserInfo);
   const [jordanShoes, setJordanShoes] = useState([]);

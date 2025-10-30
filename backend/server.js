@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 
 const PORT = process.env.PORT;
 const CLIENT = process.env.CLIENT;
+const HOST = process.env.HOST;
 
 dotenv.config();
 
@@ -34,4 +35,6 @@ app.use("/api/user", userRoutes);
 app.use("/api/shoes", shoesRoutes);
 app.use("/api/cart", cartRoutes);
 
-app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
+app.listen(PORT, HOST, () =>
+  console.log(`Server is running on http://${HOST}:${PORT}`)
+);

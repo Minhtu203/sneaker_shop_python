@@ -6,7 +6,12 @@ import { forgotPasswordApi, resetPasswordApi } from '@/api/auth/forgotPasswordAp
 import { InputPassword } from './Login';
 import { Textz } from '@/components/base/Textz';
 import { Toastz } from '@/utils/Toast';
+
 function ForgotPassword({ toast }) {
+  useEffect(() => {
+    document.title = 'SneakerT - ForgotPassword';
+  }, []);
+
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
   const [showOtp, setShowOtp] = useState(false);
@@ -58,11 +63,7 @@ function ForgotPassword({ toast }) {
           Log in
         </button>
         <span className="font-bold text-2xl text-[var(--primary-blue)] mb-4">Forgot password</span>
-        <InputText
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          label="Username"
-        />
+        <InputText value={username} onChange={(e) => setUsername(e.target.value)} label="Username" />
         <Button type="submit" label="Submit" className="!bg-[var(--primary-yellow)] !border-none" />
       </form>
       <Dialog
@@ -80,19 +81,9 @@ function ForgotPassword({ toast }) {
           className="flex flex-col gap-6 items-center justify-center"
         >
           <Textz className="font-bold text-2xl">OTP</Textz>
-          <InputOtp
-            value={otp}
-            onChange={(e) => setOtp(e.value)}
-            length={6}
-            integerOnly
-            autoComplete="off"
-          />
+          <InputOtp value={otp} onChange={(e) => setOtp(e.value)} length={6} integerOnly autoComplete="off" />
           <InputPassword className="mt-4" password={password} setPassword={setPassword} />
-          <Button
-            type="submit"
-            label="Charge password"
-            className="!bg-[var(--primary-blue)] !border-none"
-          />
+          <Button type="submit" label="Charge password" className="!bg-[var(--primary-blue)] !border-none" />
         </form>
       </Dialog>
     </div>

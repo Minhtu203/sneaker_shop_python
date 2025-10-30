@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import UserSection from './Admin/UserSection';
 import { ButtonSidebar } from '@/components/uiCore/Button/Button';
 import { DropDown } from '@/components/uiCore/index';
@@ -25,6 +25,9 @@ const Header = ({ selected, setSelected }) => {
 };
 
 function OnlyAdmin({ toast }) {
+  useEffect(() => {
+    document.title = 'Admin';
+  }, []);
   const [selected, setSelected] = useState(null);
   return (
     <div className="w-full h-full">
