@@ -4,7 +4,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./src/config/db.js";
 import cookieParser from "cookie-parser";
-import serverless from "serverless-http";
 
 // const PORT = process.env.PORT;
 const CLIENT = process.env.CLIENT;
