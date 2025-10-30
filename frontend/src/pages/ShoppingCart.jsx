@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 
 export default function ShoppingCart() {
   useEffect(() => {
-    document.title = 'Cart';
+    document.title = 'SneakerT - Cart';
   }, []);
 
   const { userInfo, setUserInfo } = useUserState();
@@ -24,7 +24,7 @@ export default function ShoppingCart() {
       }
     };
     fetchData();
-  });
+  }, [userInfo]);
 
   // console.log(222, allShoes);
 
@@ -55,6 +55,21 @@ const CardCart = (props) => {
         <Textz>{data?.productId?.name}</Textz>
         <Textz className="text-xs">{data?.productId?.brand}</Textz>
       </div>
+      <Textz className="text-[0.8rem]">
+        Price: <br />
+        {Number(data?.price)?.toLocaleString('vi-VN', {
+          style: 'currency',
+          currency: 'VND',
+        })}
+      </Textz>
+      <Textz className="text-[0.9rem]">
+        Size:{` `}
+        {data?.size}
+      </Textz>
+      <Textz className="text-[0.9rem] ml-2 flex">
+        Quantity:{` `}
+        {data?.quantity}
+      </Textz>
     </div>
   );
 };

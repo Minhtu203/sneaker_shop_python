@@ -55,6 +55,10 @@ export default function ShoesDetail() {
     fetchData();
   }, [userInfo]);
 
+  useEffect(() => {
+    document.title = `${data?.name || 'Loading...'}`;
+  }, [data]);
+
   // init selectedColor
   useEffect(() => {
     if (data && data.colors?.[0].img) {
@@ -98,9 +102,7 @@ export default function ShoesDetail() {
             Size Guide
           </button>
         </div>
-        <span className="text-[0.9rem] my-2 text-gray-500">
-          Fits small; we recommend ordering half a size up
-        </span>
+        <span className="text-[0.9rem] my-2 text-gray-500">Fits small; we recommend ordering half a size up</span>
         <div className="grid grid-cols-3 gap-2 mb-8">
           {selectedColor?.sizes?.map((s) => (
             <Button
@@ -112,10 +114,7 @@ export default function ShoesDetail() {
           ))}
         </div>
         <div className="flex flex-col gap-3 mb-8">
-          <Button
-            className="!rounded-[2rem] h-14 !bg-[var(--primary-blue)] !border-none"
-            label="Add to Bag"
-          />
+          <Button className="!rounded-[2rem] h-14 !bg-[var(--primary-blue)] !border-none" label="Add to Bag" />
           <Button
             // outlined
             className="!rounded-[2rem] h-14 !bg-[var(--light)] !border !border-[var(--primary-blue)] !text-[var(--primary-blue)] justify-center"
@@ -157,30 +156,28 @@ export default function ShoesDetail() {
             </div>
             <div className="flex flex-row gap-3 font-bold">
               <span className="text-gray-400">02</span>
-              Stand on the paper, feet shoulder width apart and weight evenly balanced (only one
-              foot will be on the paper).
+              Stand on the paper, feet shoulder width apart and weight evenly balanced (only one foot will be on the
+              paper).
             </div>
             <div className="flex flex-row gap-3 font-bold">
               <span className="text-gray-400">03</span>
-              With a pen or pencil pointed straight down, have a friend or partner assist you by
-              marking the tip of the big toe and the outermost part of the heel.
+              With a pen or pencil pointed straight down, have a friend or partner assist you by marking the tip of the
+              big toe and the outermost part of the heel.
             </div>
             <div className="flex flex-row gap-3 font-bold">
               <span className="text-gray-400">04</span>
-              Once the marks are recorded, step off the paper and use a ruler or tape measure to
-              measure the distance between the two points. This measurement represents the length of
-              the foot.
+              Once the marks are recorded, step off the paper and use a ruler or tape measure to measure the distance
+              between the two points. This measurement represents the length of the foot.
             </div>
             <div className="flex flex-row gap-3 font-bold">
               <span className="text-gray-400">05</span>
-              Repeat the process with the other foot. Please note that it is common for one foot to
-              be a slightly different length to the other.
+              Repeat the process with the other foot. Please note that it is common for one foot to be a slightly
+              different length to the other.
             </div>
             <div className="flex flex-row gap-3 font-bold">
               <span className="text-gray-400">06</span>
-              Apply the longer of the two measurements to our size chart to find the right
-              correlating size for the recorded foot length. If the measurement is between sizes, we
-              recommend sizing up.
+              Apply the longer of the two measurements to our size chart to find the right correlating size for the
+              recorded foot length. If the measurement is between sizes, we recommend sizing up.
             </div>
           </div>
         </div>
