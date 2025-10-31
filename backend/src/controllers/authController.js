@@ -71,7 +71,7 @@ export const authController = {
         role: user.role,
       },
       process.env.MY_ACCESS_KEY,
-      { expiresIn: "30m" }
+      { expiresIn: "30s" }
     );
   },
   generateRefreshToken: (user) => {
