@@ -43,7 +43,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/shoes", shoesRoutes);
 app.use("/api/cart", cartRoutes);
 
-app.listen(PORT, HOST, () =>
-  console.log(`Server is running on http://${HOST}:${PORT}`)
-);
+// app.listen(PORT, HOST, () =>
+//   console.log(`Server is running on http://${HOST}:${PORT}`)
+// );
 // export const handler = serverless(app);
