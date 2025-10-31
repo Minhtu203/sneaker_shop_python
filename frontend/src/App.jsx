@@ -54,7 +54,6 @@ function App() {
           }
 
           if (!userInfo?.accessToken) {
-            Toastz({ success: false, message: 'Please log in to continue' }, toast);
             return <Route key={index} path={route.path} element={<Navigate to={'/login'} replace />} />;
           }
 
