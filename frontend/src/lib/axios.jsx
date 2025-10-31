@@ -15,7 +15,10 @@ export const postData = (url, params) => {
 
 const refreshToken = async () => {
   try {
-    const res = await postData('/api/auth/refreshToken', { withCredentials: true });
+    const res = await postData(
+      '/api/auth/refreshToken'
+      // , { withCredentials: true }
+    );
     return res.data;
   } catch (err) {
     console.error('Refresh failed:', err.response?.data || err.message);
