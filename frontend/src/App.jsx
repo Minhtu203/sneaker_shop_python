@@ -8,6 +8,7 @@ import { privateRoutes, publicRoutes } from '@/routes';
 import DefaultLayout from '@/layout/DefaultLayout';
 import { useUserState } from './store/userState';
 import { Toast } from './components/uiCore/index';
+import { Toastz } from './utils/Toast';
 
 function App() {
   const { userInfo } = useUserState();
@@ -53,9 +54,8 @@ function App() {
           }
 
           if (!userInfo?.accessToken) {
-            return (
-              <Route key={index} path={route.path} element={<Navigate to={'/login'} replace />} />
-            );
+            Toastz({ success: false, message: 'Please log in to continue' }, toast);
+            return <Route key={index} path={route.path} element={<Navigate to={'/login'} replace />} />;
           }
 
           return (
