@@ -13,6 +13,7 @@ import Football from './pages/Football';
 import Golf from './pages/Golf';
 import Tennis from './pages/Tennis';
 import ShoppingCart from './pages/ShoppingCart';
+import UserPage from './pages/UserPage';
 
 export const publicRoutes = [
   { path: '/login', component: Login, layout: null },
@@ -22,6 +23,7 @@ export const publicRoutes = [
 
 export const privateRoutes = [
   { path: '/', component: Home, layout: DefaultLayout },
+  { path: '/user-profile', component: UserPage, layout: DefaultLayout },
   { path: '/shoes/:id', component: ShoesDetail, layout: DefaultLayout },
   { path: '/shoes/jordan', component: JordanShoes, layout: DefaultLayout },
   { path: '/shoes/airmax', component: Airmax, layout: DefaultLayout },

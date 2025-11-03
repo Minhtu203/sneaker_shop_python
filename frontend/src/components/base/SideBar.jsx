@@ -18,7 +18,23 @@ function Sidebar({ toggleSidebar }) {
           fixed top-0 left-0 z-50 transition-all duration-500 ease-in-out scrollbar-hide
           ${toggleSidebar ? 'w-[var(--width-sidebar)] translate-x-0' : 'w-[var(--width-sidebar)] -translate-x-full'}`}
     >
-      <img alt="logo" src={logo} className="w-[8rem] h-[8rem]" />
+      <img
+        alt="logo"
+        src={logo}
+        className="w-[8rem] h-[8rem]"
+        style={{
+          animation: 'spin-slow 10s linear infinite',
+        }}
+      />
+      <style>
+        {`
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  `}
+      </style>
+
       <div className="w-full flex flex-col gap-3">
         <ButtonSidebar
           noIcon={true}

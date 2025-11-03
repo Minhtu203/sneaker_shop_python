@@ -8,7 +8,6 @@ import { privateRoutes, publicRoutes } from '@/routes';
 import DefaultLayout from '@/layout/DefaultLayout';
 import { useUserState } from './store/userState';
 import { Toast } from './components/uiCore/index';
-import { Toastz } from './utils/Toast';
 
 function App() {
   const { userInfo } = useUserState();

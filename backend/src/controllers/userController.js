@@ -1,4 +1,5 @@
 import User from "../models/userModel.js";
+import { filterEmptyValues } from "../utils/filterEmptyValues.js";
 
 export const userController = {
   deleteUser: async (req, res) => {
@@ -68,6 +69,42 @@ export const userController = {
       res.status(200).json({ success: true, data: data });
     } catch (error) {
       res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+  //update user info
+  updateUser: async (req, res) => {
+    const userId = req.user.id;
+    const updateData = filterEmptyValues(req.body);
+
+    delete updateData.role;
+    delete updateData.shopping_cart;
+    try {
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        { $set: updateData },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+      if (!updatedUser)
+        return res
+          .status(404)
+          .json({ success: false, message: "User not found" });
+      const userResponse = updatedUser.toObject();
+      delete userResponse.password;
+
+      return res.status(200).json({
+        success: true,
+        user: userResponse,
+        message:
+          "Please log in again to see all updated changes across the application.",
+        life: 8000,
+      });
+    } catch (error) {
+      return res
         .status(500)
         .json({ success: false, message: "Internal server error" });
     }

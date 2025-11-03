@@ -19,7 +19,7 @@ function Header({ toggleSidebar, setToggleSidebar }) {
       label: 'Hồ sơ',
       icon: 'pi pi-user',
       command: () => {
-        console.log(11111);
+        navigate(`/user-profile`);
       },
     },
     {
@@ -68,16 +68,13 @@ function Header({ toggleSidebar, setToggleSidebar }) {
           onClick={(e) => op.current.toggle(e)}
         />
         <OverlayPanel ref={op}>
-          <img
-            src={'https://primefaces.org/cdn/primereact/images/product/bamboo-watch.jpg'}
-            alt="Bamboo Watch"
-          />
+          <img src={'https://primefaces.org/cdn/primereact/images/product/bamboo-watch.jpg'} alt="Bamboo Watch" />
         </OverlayPanel>
         <img
           alt="user"
           src={userInfo?.avatar ? userInfo?.avatar : userAvatar}
-          className="w-12 h-12 rounded-[50%] hover:cursor-pointer"
-          onClick={() => console.log(44444)}
+          className="w-12 h-12 object-cover rounded-[50%] hover:cursor-pointer"
+          onClick={() => navigate('/user-profile')}
         />
         <ButtonSidebar
           onClick={(e) => menu.current.toggle(e)}

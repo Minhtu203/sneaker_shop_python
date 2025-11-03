@@ -10,3 +10,23 @@ export const getItemsInCart = async (axiosJWT, accessToken) => {
     if (error.response) return error.response;
   }
 };
+
+export const deleteItemFromCart = async (axiosJWT, accessToken, data) => {
+  try {
+    return await axiosJWT.post('/api/cart/deleteItem', data, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+  } catch (error) {
+    if (error.response) return error.response;
+  }
+};
+
+export const addItemToCart = async (axiosJWT, accessToken, data) => {
+  try {
+    return await axiosJWT.post('/api/cart/add', data, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+  } catch (error) {
+    if (error.response) return error.response;
+  }
+};

@@ -20,4 +20,11 @@ router.get(
   userController.getAllUsers
 );
 
+// update user info
+router.post(
+  "/updateUserInfo",
+  middlewareController.verifyToken,
+  userController.updateUser
+);
+
 export default router;

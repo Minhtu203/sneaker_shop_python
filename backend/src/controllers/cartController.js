@@ -8,8 +8,15 @@ export const cartController = {
     try {
       const { productId, color, size, quantity } = req.body;
       const userId = req.user.id;
+      if (!size)
+        return res
+          .status(400)
+          .json({
+            success: false,
+            message: "Please select a size to continue",
+          });
 
-      if (!productId || !size || !quantity)
+      if (!productId || !quantity)
         return res
           .status(400)
           .json({ success: false, message: "Missing required field" });
@@ -70,7 +77,7 @@ export const cartController = {
       await cart.save();
       return res.status(200).json({
         success: true,
-        message: "Item added to cart successfully",
+        message: "Added item to cart",
         cart,
       });
     } catch (error) {
@@ -149,7 +156,11 @@ export const cartController = {
       const updateCart = await Cart.findOne({ userId }).populate(
         "items.productId"
       );
-      return res.status(200).json({ success: true, updateCart });
+      return res.status(200).json({
+        success: true,
+        updateCart,
+        message: "Remove item from cart successfully",
+      });
     } catch (error) {
       console.error(error);
       res

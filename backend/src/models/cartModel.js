@@ -23,7 +23,7 @@ const cartItemSchema = new mongoose.Schema(
       default: 1,
     },
   },
-  { _id: false }
+  { _id: false, timestamps: true }
 );
 
 const cartSchema = new mongoose.Schema(

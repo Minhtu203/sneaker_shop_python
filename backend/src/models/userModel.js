@@ -19,7 +19,8 @@ const userSchema = new mongoose.Schema(
       ref: "Cart",
       require: true,
     },
-
+    fullName: { type: String, trim: true },
+    avatar: { type: String, trim: true },
     favourites: [],
     resetOtp: { type: String },
     resetOtpExpires: { type: Date },

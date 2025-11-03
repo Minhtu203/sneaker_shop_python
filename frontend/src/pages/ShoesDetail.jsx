@@ -1,12 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { getShoesById } from '@/api/auth/shoesDetailApi';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useUserState } from '@/store/userState';
 import { CreateAxios } from '@/lib/axios';
 import { Button, Dialog, Galleria, Rating } from '@/components/uiCore/index';
 import { Textz } from '@/components/base/Textz';
 import { SizeGuideIcon } from '@/assets/icon/sizeGuide';
+import { addItemToCart } from '@/api/shoppingCartApi';
+import { Toastz } from '@/utils/Toast';
 
 const ShoeGallery = ({ shoeImg, props }) => {
   const itemTemplate = (item) => {
@@ -33,9 +35,9 @@ const ShoeGallery = ({ shoeImg, props }) => {
   );
 };
 
-export default function ShoesDetail() {
+export default function ShoesDetail({ toast }) {
   const { userInfo, setUserInfo } = useUserState();
-  let axiosJWT = useMemo(() => CreateAxios(userInfo, setUserInfo), [userInfo]);
+  let axiosJWT = CreateAxios(userInfo, setUserInfo);
   const { id } = useParams();
   const [data, setData] = useState({});
   const [selectedColor, setSelectedColor] = useState([]);
@@ -65,9 +67,20 @@ export default function ShoesDetail() {
       setSelectedColor(data.colors?.[0]);
     }
   }, [data]);
+  // console.log(22222, selectedColor);
 
-  const handleColorChange = (d) => {
-    setSelectedColor(d);
+  const idScreenShoes = useParams();
+  const [size, setSize] = useState(null);
+  const handleAddToBag = async () => {
+    const payload = {
+      productId: idScreenShoes.id,
+      color: selectedColor?.colorName,
+      quantity: selectedColor?.quantity || 1,
+      size: size?.size,
+    };
+    const res = await addItemToCart(axiosJWT, userInfo?.accessToken, payload);
+    console.log(2222, res.data);
+    Toastz(res.data, toast);
   };
 
   return (
@@ -84,7 +97,7 @@ export default function ShoesDetail() {
         <div className="flex flex-row gap-2 my-3 mb-12">
           {data?.colors?.map((d, index) => (
             <button
-              onClick={() => handleColorChange(d)}
+              onClick={() => setSelectedColor(d)}
               key={index}
               className="w-10 h-10 rounded-md hover:cursor-pointer"
               style={{ backgroundColor: d.color }}
@@ -106,6 +119,7 @@ export default function ShoesDetail() {
         <div className="grid grid-cols-3 gap-2 mb-8">
           {selectedColor?.sizes?.map((s) => (
             <Button
+              onClick={() => setSize(s)}
               key={s._id}
               className="!text-[var(--primary-blue)] !border-[var(--primary-blue)] justify-center focus:!shadow-[0_0_0_0.2rem_rgba(99,102,241,0.5)]"
               outlined
@@ -114,7 +128,11 @@ export default function ShoesDetail() {
           ))}
         </div>
         <div className="flex flex-col gap-3 mb-8">
-          <Button className="!rounded-[2rem] h-14 !bg-[var(--primary-blue)] !border-none" label="Add to Bag" />
+          <Button
+            onClick={handleAddToBag}
+            className="!rounded-[2rem] h-14 !bg-[var(--primary-blue)] !border-none"
+            label="Add to Bag"
+          />
           <Button
             // outlined
             className="!rounded-[2rem] h-14 !bg-[var(--light)] !border !border-[var(--primary-blue)] !text-[var(--primary-blue)] justify-center"

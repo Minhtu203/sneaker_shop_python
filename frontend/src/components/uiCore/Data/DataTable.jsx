@@ -10,11 +10,12 @@ import InputText from '../Form/InputText';
 const VALID_PASSWORD = import.meta.env.VITE_DELETE_PASSWORD;
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const formattedDate = (date) => {
+export const formattedDate = (date, type) => {
   const d = new Date(date);
   const day = String(d.getDate()).padStart(2, '0');
   const month = String(d.getMonth() + 1).padStart(2, '0');
   const year = d.getFullYear();
+  if (type === 'day/month') return `${day}/${month}`;
   return `${day}/${month}/${year}`;
 };
 
@@ -50,11 +51,7 @@ const DataTable = (props) => {
         paginator
         rows={5}
         rowsPerPageOptions={[5, 10, 25, 50]}
-        footer={
-          <span className="text-[var(--primary-blue)] font-semibold">
-            Total Records: {totalRecords || 0}
-          </span>
-        }
+        footer={<span className="text-[var(--primary-blue)] font-semibold">Total Records: {totalRecords || 0}</span>}
         {...prop}
       >
         {props.children}
