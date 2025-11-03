@@ -5,10 +5,10 @@ const redisClient = new Redis({
   host: process.env.REDIS_HOST || "127.0.0.1",
 
   // uncomment when deploy product
-  // password: process.env.REDIS_PASSWORD,
-  // tls: {
-  //   rejectUnauthorized: false,
-  // },
+  password: process.env.REDIS_PASSWORD,
+  tls: {
+    rejectUnauthorized: false,
+  },
 
   enableReadyCheck: true,
 

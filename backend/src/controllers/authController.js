@@ -258,7 +258,6 @@ export const authController = {
           .status(404)
           .json({ success: false, message: "OTP đã hết hạn" });
 
-      // Băm mật khẩu mới
       const hashedPassword = await bcrypt.hash(newPassword, 10);
       user.password = hashedPassword;
 
