@@ -200,6 +200,10 @@ export const authController = {
 
       res.status(200).json("Logged out !");
     } catch (err) {
+      res.clearCookie("refreshToken");
+      if (err.name === "TokenExpiredError") {
+        return res.status(200).json("Logged out (token expired)!");
+      }
       res.status(500).json({ message: "Logout failed", error: err.message });
     }
   },
