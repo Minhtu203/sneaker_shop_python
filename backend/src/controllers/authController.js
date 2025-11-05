@@ -188,6 +188,16 @@ export const authController = {
 
   logoutUser: async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
+    const cookieOptions = {
+      httpOnly: true,
+      path: "/",
+      // secure: false,
+      // sameSite: "Strict",
+      secure: true,
+      sameSite: "None",
+    };
+    res.clearCookie("refreshToken", cookieOptions);
+
     if (!refreshToken) return res.status(400).json("No refresh token found");
     try {
       const decoded = jwt.verify(
@@ -196,7 +206,6 @@ export const authController = {
       );
       const userId = decoded.id;
       await redisClient.del(`refreshToken:${userId}`);
-      res.clearCookie("refreshToken");
 
       res.status(200).json("Logged out !");
     } catch (err) {
