@@ -1,23 +1,35 @@
 import logo from '../../assets/logoShoes.png';
-import { Sidebar as Sidebarz } from 'primereact/sidebar';
 import Button, { ButtonSidebar } from '../uiCore/Button/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useUserState } from '@/store/userState';
 
-function Sidebar({ toggleSidebar }) {
+function Sidebar({ toggleSidebar, setToggleSidebar }) {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const navigate = useNavigate();
   const [sport, setSport] = useState(false);
   const location = useLocation();
   const { userInfo } = useUserState();
-  // console.log(111, userInfo?.role);
 
   return (
     <div
       className={`border-r border-gray-300 bg-white h-screen flex flex-col overflow-auto items-center py-8 gap-4 
           fixed top-0 left-0 z-50 transition-all duration-500 ease-in-out scrollbar-hide
-          ${toggleSidebar ? 'w-[var(--width-sidebar)] translate-x-0' : 'w-[var(--width-sidebar)] -translate-x-full'}`}
+          ${toggleSidebar ? 'w-[100%] md:w-[var(--width-sidebar)] translate-x-0' : 'w-[100%] md:w-[var(--width-sidebar)] -translate-x-full'}`}
     >
+      {windowWidth < 768 && (
+        <button
+          onClick={() => setToggleSidebar(!toggleSidebar)}
+          className="absolute top-5 right-6 pi pi-times w-10 h-10 rounded-[50%] bg-[var(--primary-blue)] text-white cursor-pointer"
+        />
+      )}
       <img
         alt="logo"
         src={logo}

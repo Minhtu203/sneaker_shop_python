@@ -36,13 +36,13 @@ function Login({ toast }) {
   };
   return (
     <div className="flex flex-row w-full h-screen">
-      <div className="w-4/10 h-full flex items-center justify-center bg-[var(--light)]">
+      <div className="md:w-4/10 hidden md:flex h-full items-center justify-center bg-[var(--light)]">
         <img alt="pic" src={shoesImg} />
       </div>
-      <div className="w-6/10 h-full bg-[var(--light)] flex items-center justify-center">
+      <div className="w-full md:w-6/10 h-full bg-[var(--light)] flex items-center justify-center">
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col gap-7 items-center rounded-2xl justify-center shadow-2xl w-1/2 px-12 py-15"
+          className="flex flex-col gap-7 items-center rounded-2xl justify-center shadow-2xl md:w-1/2 px-12 py-15"
         >
           <img className="w-30 h-30" alt="logo" src={logo} />
           <InputText value={username} onChange={(e) => setUsername(e.target.value)} label="Username" />

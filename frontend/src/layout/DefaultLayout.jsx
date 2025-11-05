@@ -10,7 +10,7 @@ function DefaultLayout(props) {
 
   return (
     <div className={`${className} flex flex-row`} {...prop}>
-      <Sidebar toggleSidebar={toggleSidebar} />
+      <Sidebar toggleSidebar={toggleSidebar} setToggleSidebar={setToggleSidebar} />
       <div className="flex flex-col w-full h-screen">
         <Header toggleSidebar={toggleSidebar} setToggleSidebar={setToggleSidebar} />
         <div

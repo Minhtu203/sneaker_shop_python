@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { CreateAxios } from '@/lib/axios';
@@ -7,12 +7,38 @@ import { logoutApi } from '@/api/auth/logoutApi';
 import userAvatar from '../../assets/userDefault.png';
 import { ButtonSidebar } from '../uiCore/Button/Button';
 import { InputIcon, InputTextz } from '../uiCore/Form/InputIcon ';
-import { Button, Menu, OverlayPanel, IconField } from '../uiCore/index';
+import { Button, Menu, OverlayPanel, IconField, AutoComplete } from '../uiCore/index';
+import { getAllShoes } from '@/api/homeApi';
 
 function Header({ toggleSidebar, setToggleSidebar }) {
   const { userInfo, clearUserInfo, setUserInfo } = useUserState();
   let axiosJWT = CreateAxios(userInfo, setUserInfo);
   const navigate = useNavigate();
+  const [allShoes, setAllShoes] = useState([]);
+  const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    const fetchShoes = async () => {
+      const res = await getAllShoes(axiosJWT, userInfo?.accessToken);
+      setAllShoes(res?.data?.data);
+    };
+    fetchShoes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const [filteredShoes, setFilteredShoes] = useState([]);
+
+  const searchShoes = (event) => {
+    let query = event.query;
+    let filtered;
+    if (!query || query.trim().length === 0) {
+      filtered = allShoes.slice(0, 3);
+      console.log(1111, filtered);
+    } else {
+      filtered = allShoes.filter((s) => s.name.toLowerCase().includes(event.query.toLowerCase().trim()));
+    }
+    setFilteredShoes(filtered);
+  };
 
   let items = [
     {
@@ -34,23 +60,44 @@ function Header({ toggleSidebar, setToggleSidebar }) {
   const menu = useRef(null);
   const op = useRef(null);
 
+  const handleSearch = (item) => {
+    navigate(`/shoes/${item?._id}`);
+  };
+
   return (
     <div
       className={`h-[var(--height-header)] bg-white border-b border-b-gray-300 
-      flex flex-row items-center justify-start px-8 gap-4 ${toggleSidebar ? 'ml-[var(--width-sidebar)]' : 'ml-0'}
+      flex flex-row items-center justify-start px-8 gap-4 ${toggleSidebar ? 'hidden md:flex md:ml-[var(--width-sidebar)]' : 'ml-0'}
         transition-all duration-500 ease-in-out sticky z-50`}
     >
       <Button
-        className="!bg-[var(--primary-blue)] hover:!bg-[var(--primary-blue-hover)]"
+        className="md:w-16 w-16 !bg-[var(--primary-blue)] hover:!bg-[var(--primary-blue-hover)]"
         icon="pi pi-align-justify"
         aria-label="Filter"
         onClick={() => setToggleSidebar(!toggleSidebar)}
       />
       {/* search box */}
-      <IconField iconPosition="left">
-        <InputIcon className="pi pi-search" />
-        <InputTextz placeholder="Search" />
-      </IconField>
+      <div className="w-[20rem] relative items-center">
+        <div className="absolute z-10 h-full w-9 flex items-center justify-center text-gray-500">
+          <InputIcon className="pi pi-search z-10 " />
+        </div>
+        <AutoComplete
+          className="!w-full"
+          inputClassName="!w-full !pl-9"
+          value={search}
+          suggestions={filteredShoes}
+          completeMethod={searchShoes}
+          onChange={(e) => setSearch(e.value)}
+          placeholder="Search shoes"
+          field="name"
+          itemTemplate={(item) => (
+            <button onClick={() => handleSearch(item)} className="flex items-center gap-2 cursor-pointer">
+              <img className="w-12 h-12 object-cover rounded-md" src={item?.colors?.[0]?.img?.[0]} alt="shoes" />
+              <span className="text-md text-[var(--primary-blue)]">{item.name}</span>
+            </button>
+          )}
+        />
+      </div>
 
       <div className="flex gap-4 flex-row items-center ml-auto">
         <Button
@@ -73,7 +120,7 @@ function Header({ toggleSidebar, setToggleSidebar }) {
         <img
           alt="user"
           src={userInfo?.avatar ? userInfo?.avatar : userAvatar}
-          className="w-12 h-12 object-cover rounded-[50%] hover:cursor-pointer"
+          className="hidden md:flex w-12 h-12 object-cover rounded-[50%] hover:cursor-pointer"
           onClick={() => navigate('/user-profile')}
         />
         <ButtonSidebar

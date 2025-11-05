@@ -1,6 +1,6 @@
 import { IconField as IconFields } from 'primereact/iconfield';
 
-const IconField = ({ ...props }) => {
+const IconField = (props) => {
   return <IconFields {...props} />;
 };
 

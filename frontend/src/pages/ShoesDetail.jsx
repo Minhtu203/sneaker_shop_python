@@ -55,7 +55,7 @@ export default function ShoesDetail({ toast }) {
       }
     };
     fetchData();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     document.title = `${data?.name || 'Loading...'}`;
@@ -84,11 +84,11 @@ export default function ShoesDetail({ toast }) {
   };
 
   return (
-    <div className="flex flex-row p-4 gap-16 h-full">
-      <div className="w-2/5 sticky top-0 h-full">
+    <div className="flex flex-col md:flex-row p-4 gap-16 md:h-full">
+      <div className="md:w-2/5 w-full md:sticky md:top-0 md:h-full">
         <ShoeGallery shoeImg={selectedColor?.img} />
       </div>
-      <div className="w-3/5 p-8 pr-50 pb-50 flex flex-col overflow-y-auto max-h-screen">
+      <div className="md:w-3/5 w-full p-8 md:pr-50 pb-50 flex flex-col overflow-y-auto max-h-screen">
         <Textz className="text-2xl">{data.name}</Textz>
         <Textz className="mb-2">{data.gender}</Textz>
         <Textz className="mb-4 font-[600]">{data?.price?.toLocaleString('vi-VN')}₫</Textz>
@@ -152,9 +152,9 @@ export default function ShoesDetail({ toast }) {
         </Textz>
       </div>
       <Dialog
+        className="w-[80%] md:[50vw]"
         header="Size Guide"
         visible={visibleSizeGuide}
-        style={{ width: '50vw' }}
         onHide={() => {
           if (!visibleSizeGuide) return;
           setVisibleSizeGuide(false);

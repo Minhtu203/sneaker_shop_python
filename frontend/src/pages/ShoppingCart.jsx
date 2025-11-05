@@ -42,14 +42,14 @@ export default function ShoppingCart({ toast }) {
   };
 
   return (
-    <div className="flex flex-row h-full w-full">
-      <div className="w-6/10 p-4 flex flex-col gap-2">
+    <div className="flex flex-col md:flex-row h-full w-full">
+      <div className="md:w-6/10 p-4 flex flex-col gap-2">
         <Textz className="font-bold">Total: {allShoes?.items?.length || 0} items</Textz>
         {allShoes?.items?.map((shoe, index) => (
           <CardCart key={index} data={shoe} handleRemoveItem={handleRemoveItem} handleCheckout={handleCheckout} />
         ))}
       </div>
-      <div className="w-4/10 p-4 h-full pt-12">
+      <div className="w-full md:w-4/10 p-4 h-full pt-12">
         <div className="bg-white w-full h-full rounded-2xl p-12 flex flex-col gap-4">
           <Textz className="text-2xl font-bold pb-4">Summary</Textz>
           <div className="flex flex-row justify-between">
@@ -77,12 +77,11 @@ export default function ShoppingCart({ toast }) {
 const CardCart = (props) => {
   const { className, data, handleRemoveItem, handleCheckout, ...prop } = props;
   const navigate = useNavigate();
-  console.log(111, data);
 
   return (
     <div
       {...prop}
-      className={`${className} h-42 w-full bg-white rounded-2xl grid grid-cols-9 items-center px-4 py-2 gap-4`}
+      className={`${className} md:h-42 w-full bg-white rounded-2xl grid grid-cols-9 items-center px-4 py-4 md:py-2 gap-4`}
     >
       <img
         onClick={() => navigate(`/shoes/${data?.productId?._id}`)}
@@ -102,13 +101,15 @@ const CardCart = (props) => {
         })}
       </Textz>
       <Textz className="text-[0.9rem]">Size: {data?.size}</Textz>
-      <Textz className="text-[0.9rem] ml-2 flex">Quantity: {data?.quantity}</Textz>
+      <Textz className="text-[0.9rem] ml-2 hidden md:flex">Quantity: {data?.quantity}</Textz>
+      <Textz className="text-[0.9rem] ml-2 md:hidden">Q: {data?.quantity}</Textz>
       <Textz className="text-[0.9rem] ml-2 flex">Date added: {formattedDate(data?.createdAt, 'day/month')}</Textz>
 
-      <div className="flex flex-col gap-2">
+      <br className="md:hidden flex" />
+      <div className="flex flex-row md:flex-col md:col-span-1 col-span-4 gap-2">
         <Button
           onClick={handleCheckout}
-          className="!h-10 !text-xs !flex !justify-center !bg-[var(--primary-blue)] !border-none"
+          className="!h-10  !text-xs !flex !justify-center !bg-[var(--primary-blue)] !border-none"
           label="Checkout"
         />
         <Button
@@ -120,7 +121,7 @@ const CardCart = (props) => {
             });
           }}
           severity="danger"
-          className="!h-10 !text-xs !flex !justify-center"
+          className="!h-10  !text-xs !flex !justify-center"
           label="Remove"
         />
       </div>
