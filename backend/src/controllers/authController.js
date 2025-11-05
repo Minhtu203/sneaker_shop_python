@@ -122,10 +122,10 @@ export const authController = {
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
           path: "/",
-          secure: false,
-          sameSite: "Strict",
-          // secure: true,
-          // sameSite: "None",
+          // secure: false,
+          // sameSite: "Strict",
+          secure: true,
+          sameSite: "None",
         });
         const { password, ...other } = user._doc;
         res
@@ -173,10 +173,10 @@ export const authController = {
         res.cookie("refreshToken", newRefreshToken, {
           httpOnly: true,
           path: "/",
-          secure: false,
-          sameSite: "Strict",
-          // secure: true,
-          // sameSite: "None",
+          // secure: false,
+          // sameSite: "Strict",
+          secure: true,
+          sameSite: "None",
         });
         res.status(200).json({ accessToken: newAccessToken });
       }
@@ -188,10 +188,10 @@ export const authController = {
     const cookieOptions = {
       httpOnly: true,
       path: "/",
-      secure: false,
-      sameSite: "Strict",
-      // secure: true,
-      // sameSite: "None",
+      // secure: false,
+      // sameSite: "Strict",
+      secure: true,
+      sameSite: "None",
     };
     res.clearCookie("refreshToken", cookieOptions);
 

@@ -46,7 +46,7 @@ function Home() {
           JUST DO IT
         </span>
       </div>
-      <div className="w-full grid grid-cols-3 gap-4 p-8 pb-8">
+      <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 p-8 pb-8">
         {allShoes?.data?.data?.map((shoe) => (
           <CardShoes key={shoe._id} shoe={shoe} />
         ))}
