@@ -26,7 +26,7 @@ const shoesScheme = new mongoose.Schema(
     gender: {
       type: String,
       enum: ["Men", "Women", "Unisex"],
-      default: "unisex",
+      default: "Unisex",
     },
     rating: {
       average: { type: String, default: 0 },

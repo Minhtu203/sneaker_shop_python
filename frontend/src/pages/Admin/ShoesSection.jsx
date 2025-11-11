@@ -8,10 +8,13 @@ import {
   Column,
   DataTable,
   Dialog,
+  DropDown,
   InputNumber,
   InputText,
   InputTextarea,
   RadioButton,
+  ToggleButton,
+  ToggleButtonz,
 } from '@/components/uiCore/index';
 import { CreateAxios } from '@/lib/axios';
 import { useUserState } from '@/store/userState';
@@ -36,6 +39,22 @@ export default function ShoesSection({ toast }) {
   const [allShoes, setAllShoes] = useState([]);
   const [deleteShoes, setDeleteShoes] = useState('');
   const [updateShoes, setUpdateShoes] = useState('');
+
+  const [selectCategory, setSelectCategory] = useState(null);
+  const category = [
+    { name: 'Sneaker' },
+    { name: 'Running' },
+    { name: 'Basketball' },
+    { name: 'Training' },
+    { name: 'Outdoor' },
+    { name: 'Life style' },
+    { name: 'Formal' },
+  ];
+
+  const [selectGender, setSelectGender] = useState(null);
+  const gender = [{ name: 'Men' }, { name: 'Women' }, { name: 'Unisex' }];
+
+  const [isFeatured, setIsFeatured] = useState(true);
 
   // get all shoes
   useEffect(() => {
@@ -158,7 +177,6 @@ export default function ShoesSection({ toast }) {
             onChange={(e) => setData({ ...data, price: e.target.value })}
             label="Price"
           />
-
           <div className="flex flex-row gap-6">
             <Textz className="font-bold">Number of colors:</Textz>
             <RadioButton
@@ -221,7 +239,6 @@ export default function ShoesSection({ toast }) {
                 <i className="h-[1px] w-full bg-gray-300 mt-4" />
               </div>
             ))}
-
           <div className="flex flex-row gap-4 items-center">
             <Textz className="font-bold">Size:</Textz>
 
@@ -243,6 +260,25 @@ export default function ShoesSection({ toast }) {
               />
             </div>
           ))}
+
+          <DropDown
+            value={selectCategory}
+            onChange={(e) => setSelectCategory(e.value)}
+            options={category}
+            optionLabel="name"
+            placeholder="Select category"
+          />
+          <DropDown
+            value={selectGender}
+            onChange={(e) => setSelectGender(e.value)}
+            options={gender}
+            optionLabel="name"
+            placeholder="Select gender"
+          />
+          <div className="flex flex-row gap-3 items-center">
+            <Textz className="font-bold text-md">Is Featured: </Textz>
+            <ToggleButtonz checked={isFeatured} onChange={(e) => setIsFeatured(e.value)} />
+          </div>
 
           <Button type="submit" label="Create" className="!bg-[var(--primary-blue)] !border-none" />
         </form>
