@@ -38,7 +38,11 @@ export const shoesController = {
     try {
       const newShoe = new Shoes(req.body);
       const savedShoes = await newShoe.save();
-      res.status(200).json({ success: true, data: savedShoes });
+      res.status(200).json({
+        success: true,
+        data: savedShoes,
+        message: "Create item successfully",
+      });
     } catch (error) {
       res.status(500).json({ success: false, error: error.message || error });
     }
