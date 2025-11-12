@@ -143,7 +143,7 @@ export default function ShoesDetail({ toast }) {
             </React.Fragment>
           ))}
         </div>
-        {size && <Textz className="text-md mt-1">Stock: {size?.stock}</Textz>}
+        {size && <Textz className="text-md mt-1">Stock: {size?.stock || 0}</Textz>}
         <div className="flex flex-col gap-3 mb-8 mt-6">
           <Button
             onClick={handleAddToBag}
