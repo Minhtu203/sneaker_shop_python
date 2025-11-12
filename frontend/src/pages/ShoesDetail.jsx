@@ -144,7 +144,7 @@ export default function ShoesDetail({ toast }) {
           ))}
         </div>
         {size && <Textz className="text-md mt-1 mb-6">Stock: {size?.stock}</Textz>}
-        <div className="flex flex-col gap-3 mb-8">
+        <div className="flex flex-col gap-3 mb-8 mt-8">
           <Button
             onClick={handleAddToBag}
             className="!rounded-[2rem] h-14 !bg-[var(--primary-blue)] !border-none"
