@@ -1,8 +1,36 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { WrapperShoes } from './Home';
+import { getBasketballShoesApi } from '@/api/basketballApi';
+import { CreateAxios } from '@/lib/axios';
+import { useUserState } from '@/store/userState';
+import CardShoes from '@/utils/CardShoes';
 
 export default function Basketball() {
   useEffect(() => {
     document.title = 'Basketball';
   }, []);
-  return <div>Basketball</div>;
+
+  const { userInfo, setUserInfo } = useUserState();
+  const [allShoes, setAllShoes] = useState([]);
+  let axiosJWT = CreateAxios(userInfo, setUserInfo);
+  useEffect(() => {
+    const fetchShoes = async () => {
+      try {
+        const data = await getBasketballShoesApi(axiosJWT, userInfo?.accessToken);
+        setAllShoes(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchShoes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <WrapperShoes>
+      {allShoes?.data?.data?.map((shoe) => (
+        <CardShoes key={shoe._id} shoe={shoe} />
+      ))}
+    </WrapperShoes>
+  );
 }

@@ -36,8 +36,15 @@ export const shoesController = {
   // create shoes
   createShoes: async (req, res) => {
     try {
-      const newShoe = new Shoes(req.body);
+      const data = req.body;
+      data.colors = data.colors.map((color) => ({
+        ...color,
+        sizes: color.sizes.sort((a, b) => a.size - b.size),
+      }));
+
+      const newShoe = new Shoes(data);
       const savedShoes = await newShoe.save();
+
       res.status(200).json({
         success: true,
         data: savedShoes,
@@ -164,6 +171,66 @@ export const shoesController = {
           .status(404)
           .json({ success: false, message: "No product found" });
       res.status(200).json({ success: true, data: featuredShoes });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+  // get basketball shoes
+  getBasketballShoes: async (req, res) => {
+    try {
+      const basketballShoes = await Shoes.find({ category: "Basketball" });
+      if (basketballShoes.length === 0)
+        return res
+          .status(404)
+          .json({ success: false, message: "No product found" });
+      res.status(200).json({ success: true, data: basketballShoes });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+  // get football shoes
+  getFootballShoes: async (req, res) => {
+    try {
+      const footballShoes = await Shoes.find({ category: "Football" });
+      if (footballShoes.length === 0)
+        return res
+          .status(404)
+          .json({ success: false, message: "No product found" });
+      res.status(200).json({ success: true, data: footballShoes });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+  // get golf shoes
+  getGolfShoes: async (req, res) => {
+    try {
+      const golfShoes = await Shoes.find({ category: "Golf" });
+      if (golfShoes.length === 0)
+        return res
+          .status(404)
+          .json({ success: false, message: "No product found" });
+      res.status(200).json({ success: true, data: golfShoes });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
+  // get tennis shoes
+  getTennisShoes: async (req, res) => {
+    try {
+      const tennisShoes = await Shoes.find({ category: "Tennis" });
+      if (tennisShoes.length === 0)
+        return res
+          .status(404)
+          .json({ success: false, message: "No product found" });
+      res.status(200).json({ success: true, data: tennisShoes });
     } catch (error) {
       res
         .status(500)

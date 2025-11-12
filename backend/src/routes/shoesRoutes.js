@@ -67,4 +67,30 @@ router.get(
   shoesController.getIsFeaturedShoes
 );
 
+// get basketball shoes
+router.get(
+  "/getBasketballShoes",
+  middlewareController.verifyToken,
+  shoesController.getBasketballShoes
+);
+
+// get football shoes
+router.get(
+  "/getFootballShoes",
+  middlewareController.verifyToken,
+  shoesController.getFootballShoes
+);
+// get golf shoes
+router.get(
+  "/getGolfShoes",
+  middlewareController.verifyToken,
+  shoesController.getGolfShoes
+);
+// get tennis shoes
+router.get(
+  "/getTennisShoes",
+  middlewareController.verifyToken,
+  shoesController.getTennisShoes
+);
+
 export default router;
