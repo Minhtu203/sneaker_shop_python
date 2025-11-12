@@ -1,9 +1,9 @@
-import { getAirmaxShoes } from '@/api/AirmaxApi';
 import { CreateAxios } from '@/lib/axios';
 import { useUserState } from '@/store/userState';
 import CardShoes from '@/utils/CardShoes';
 import { useEffect, useState } from 'react';
 import { WrapperShoes } from './Home';
+import { getAirmaxShoes } from '@/api/airmaxApi';
 
 export default function Airmax() {
   useEffect(() => {
