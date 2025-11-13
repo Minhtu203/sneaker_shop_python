@@ -36,14 +36,16 @@ import userRoutes from "./src/routes/userRoutes.js";
 import shoesRoutes from "./src/routes/shoesRoutes.js";
 import cartRoutes from "./src/routes/cartRoutes.js";
 import favouritesRoutes from "./src/routes/favouritesRoutes.js";
+import orderRoutes from "./src/routes/orderRoutes.js";
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/shoes", shoesRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/favourite", favouritesRoutes);
+app.use("/api/order", orderRoutes);
 
-// app.listen(PORT, () =>
-//   console.log(`Server is running on http://localhost:${PORT}`)
-// );
-export default app;
+app.listen(PORT, () =>
+  console.log(`Server is running on http://localhost:${PORT}`)
+);
+// export default app;

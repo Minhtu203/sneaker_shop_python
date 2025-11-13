@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useUserState } from '@/store/userState';
 import { CreateAxios } from '@/lib/axios';
 import defaultAvatar from '.././assets/userDefault.png';
@@ -8,6 +8,9 @@ import { updateUserApi } from '@/api/user/updateUser';
 import { Toastz } from '@/utils/Toast';
 
 export default function UserPage({ toast }) {
+  useEffect(() => {
+    document.title = 'Profile';
+  }, []);
   const { userInfo, setUserInfo } = useUserState();
   let axiosJWT = CreateAxios(userInfo, setUserInfo);
 
@@ -19,13 +22,25 @@ export default function UserPage({ toast }) {
       fullName,
       username,
       avatar,
+      phone,
+      address,
+      city,
     };
     const res = await updateUserApi(axiosJWT, userInfo?.accessToken, data);
     Toastz(res.data, toast);
+    if (res.data.success === true) {
+      setUserInfo((prev) => ({
+        ...prev,
+        ...data,
+      }));
+    }
   };
 
   const [fullName, setFullName] = useState(userInfo?.fullName || null);
   const [username, setUsername] = useState(userInfo?.username);
+  const [phone, setPhone] = useState(userInfo?.phone || '');
+  const [address, setAdress] = useState(userInfo?.address || '');
+  const [city, setCity] = useState(userInfo?.city || '');
 
   return (
     <div className="w-full p-8">
@@ -42,6 +57,11 @@ export default function UserPage({ toast }) {
         <InputText value={fullName} onChange={(e) => setFullName(e.target.value)} label="FullName" />
         <InputText value={username} onChange={(e) => setUsername(e.target.value)} label="Username" />
         <InputText value={userInfo?.email} label="*Email" />
+
+        <InputText value={phone || ''} onChange={(e) => setPhone(e.target.value)} label="Phone" />
+        <InputText value={address || ''} onChange={(e) => setAdress(e.target.value)} label="Address" />
+        <InputText value={city || ''} onChange={(e) => setCity(e.target.value)} label="City" />
+
         <InputText value={userInfo?.role} label="*Role" />
 
         <div className="flex flex-col items-center gap-4 w-full">

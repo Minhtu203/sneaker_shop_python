@@ -7,6 +7,9 @@ import CardShoes from '@/utils/CardShoes';
 import { Toastz } from '@/utils/Toast';
 
 export default function Favourites({ toast }) {
+  useEffect(() => {
+    document.title = 'Favourite';
+  }, []);
   const { userInfo, setUserInfo } = useUserState();
   let axiosJWT = CreateAxios(userInfo, setUserInfo);
   const [shoesFav, setShoesFav] = useState([]);

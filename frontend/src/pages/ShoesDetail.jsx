@@ -79,7 +79,6 @@ export default function ShoesDetail({ toast }) {
       size: size?.size,
     };
     const res = await addItemToCart(axiosJWT, userInfo?.accessToken, payload);
-    console.log(2222, res.data);
     Toastz(res.data, toast);
   };
 

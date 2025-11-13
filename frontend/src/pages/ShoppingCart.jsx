@@ -13,7 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ShoppingCart({ toast }) {
   useEffect(() => {
-    document.title = 'SneakerT - Cart';
+    document.title = 'Cart';
   }, []);
   const { userInfo, setUserInfo } = useUserState();
   let axiosJWT = CreateAxios(userInfo, setUserInfo);
@@ -54,7 +54,7 @@ export default function ShoppingCart({ toast }) {
   }, [total]);
 
   return (
-    <div className="flex flex-col md:flex-row h-full w-full">
+    <div className="flex flex-col md:flex-row w-full pb-8">
       <div className="md:w-6/10 p-4 flex flex-col gap-2">
         <Textz className="font-bold">Total: {allShoes?.items?.length || 0} items</Textz>
         {allShoes?.items?.map((shoe, index) => (
