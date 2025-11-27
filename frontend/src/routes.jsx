@@ -15,6 +15,8 @@ import Tennis from './pages/Tennis';
 import ShoppingCart from './pages/ShoppingCart';
 import UserPage from './pages/UserPage';
 import Favourites from './pages/Favourites';
+import Adidas from './pages/Adidas';
+import Header from './components/base/Header';
 
 export const publicRoutes = [
   { path: '/login', component: Login, layout: null },
@@ -23,13 +25,14 @@ export const publicRoutes = [
 ];
 
 export const privateRoutes = [
-  { path: '/', component: Home, layout: DefaultLayout },
+  { path: '/', component: Home, layout: null },
   { path: '/user-profile', component: UserPage, layout: DefaultLayout },
   { path: '/shoes/:id', component: ShoesDetail, layout: DefaultLayout },
   { path: '/favourites', component: Favourites, layout: DefaultLayout },
   { path: '/shoes/jordan', component: JordanShoes, layout: DefaultLayout },
   { path: '/shoes/airmax', component: Airmax, layout: DefaultLayout },
   { path: '/shoes/nike', component: Nike, layout: DefaultLayout },
+  { path: '/shoes/adidas', component: Adidas, layout: DefaultLayout },
   { path: '/shoes/basketball', component: Basketball, layout: DefaultLayout },
   { path: '/shoes/football', component: Football, layout: DefaultLayout },
   { path: '/shoes/golf', component: Golf, layout: DefaultLayout },

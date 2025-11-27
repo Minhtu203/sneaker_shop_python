@@ -4,6 +4,7 @@ import CardShoes from '@/utils/CardShoes';
 import { useEffect, useState } from 'react';
 import { WrapperShoes } from './Home';
 import { getAirmaxShoes } from '@/api/airmaxApi';
+import Footer from '@/components/base/Footer';
 
 export default function Airmax() {
   useEffect(() => {
@@ -27,10 +28,13 @@ export default function Airmax() {
   }, []);
 
   return (
-    <WrapperShoes>
-      {allShoes?.data?.data?.map((shoe) => (
-        <CardShoes key={shoe._id} shoe={shoe} />
-      ))}
-    </WrapperShoes>
+    <div className="flex flex-col">
+      <WrapperShoes>
+        {allShoes?.data?.data?.map((shoe) => (
+          <CardShoes key={shoe._id} shoe={shoe} />
+        ))}
+      </WrapperShoes>
+      <Footer />
+    </div>
   );
 }

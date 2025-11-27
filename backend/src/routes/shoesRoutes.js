@@ -52,6 +52,12 @@ router.get(
   middlewareController.verifyToken,
   shoesController.getNikeShoes
 );
+// get brand Adidas shoes
+router.get(
+  "/getAdidasShoes",
+  middlewareController.verifyToken,
+  shoesController.getAdidasShoes
+);
 
 // get brand Airmax shoes
 router.get(

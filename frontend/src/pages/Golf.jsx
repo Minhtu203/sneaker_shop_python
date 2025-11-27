@@ -4,6 +4,7 @@ import { CreateAxios } from '@/lib/axios';
 import { useUserState } from '@/store/userState';
 import CardShoes from '@/utils/CardShoes';
 import { getTennisShoes } from '@/api/tennisApi';
+import Footer from '@/components/base/Footer';
 
 export default function Basketball() {
   useEffect(() => {
@@ -27,10 +28,13 @@ export default function Basketball() {
   }, []);
 
   return (
-    <WrapperShoes>
-      {allShoes?.data?.data?.map((shoe) => (
-        <CardShoes key={shoe._id} shoe={shoe} />
-      ))}
-    </WrapperShoes>
+    <div className="flex flex-col">
+      <WrapperShoes>
+        {allShoes?.data?.data?.map((shoe) => (
+          <CardShoes key={shoe._id} shoe={shoe} />
+        ))}
+      </WrapperShoes>
+      <Footer />
+    </div>
   );
 }

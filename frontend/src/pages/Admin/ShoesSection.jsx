@@ -49,6 +49,8 @@ export default function ShoesSection({ toast }) {
     { name: 'Life style' },
   ];
 
+  const brand = [{ name: 'Nike' }, { name: 'Adidas' }, { name: 'Airmax' }, { name: 'Jordan' }];
+
   const gender = [{ name: 'Men' }, { name: 'Women' }, { name: 'Unisex' }];
 
   // get all shoes
@@ -117,6 +119,7 @@ export default function ShoesSection({ toast }) {
     e.preventDefault();
     data.category = data.category.name;
     data.gender = data.gender.name;
+    data.brand = data.brand.name;
     const res = await createShoesApi(axiosJWT, userInfo?.accessToken, data);
     setVisibleCreate(false);
     Toastz(res.data, toast);
@@ -220,10 +223,12 @@ export default function ShoesSection({ toast }) {
             onChange={(e) => setData({ ...data, name: e.target.value })}
             label="Shoes name"
           />
-          <InputText
-            value={data?.brand || ''}
-            onChange={(e) => setData({ ...data, brand: e.target.value })}
-            label="Brand"
+          <DropDown
+            value={data?.brand}
+            onChange={(e) => setData({ ...data, brand: e.value })}
+            options={brand}
+            optionLabel="name"
+            placeholder="Brand"
           />
           <InputText
             value={data?.description || ''}

@@ -9,6 +9,8 @@ import { ButtonSidebar } from '../uiCore/Button/Button';
 import { InputIcon, InputTextz } from '../uiCore/Form/InputIcon ';
 import { Button, Menu, OverlayPanel, IconField, AutoComplete } from '../uiCore/index';
 import { getAllShoes } from '@/api/homeApi';
+import { getItemsInCart } from '@/api/shoppingCartApi';
+import { useCartStore } from '@/store/cartStore';
 
 function Header({ toggleSidebar, setToggleSidebar }) {
   const { userInfo, clearUserInfo, setUserInfo } = useUserState();
@@ -33,7 +35,6 @@ function Header({ toggleSidebar, setToggleSidebar }) {
     let filtered;
     if (!query || query.trim().length === 0) {
       filtered = allShoes.slice(0, 3);
-      console.log(1111, filtered);
     } else {
       filtered = allShoes.filter((s) => s.name.toLowerCase().includes(event.query.toLowerCase().trim()));
     }
@@ -77,6 +78,20 @@ function Header({ toggleSidebar, setToggleSidebar }) {
     navigate(`/shoes/${item?._id}`);
   };
 
+  const { cartItems, setCartItems } = useCartStore();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getItemsInCart(axiosJWT, userInfo?.accessToken);
+        setCartItems(res.data?.cartItems?.items);
+      } catch (error) {
+        console.error(error.message || error);
+      }
+    };
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userInfo]);
+
   return (
     <div
       className={`h-[var(--height-header)] bg-white border-b border-b-gray-300 
@@ -113,13 +128,19 @@ function Header({ toggleSidebar, setToggleSidebar }) {
       </div>
 
       <div className="flex gap-4 flex-row items-center ml-auto">
-        <Button
-          className="!hidden md:!flex !text-[var(--primary-blue)] focus:!text-[var(--primary-blue)] !text-12 !p-[1.4rem] focus:!shadow-[0_0_0_0.2rem_rgba(99,102,241,0.5)]"
-          icon="pi pi-shopping-cart"
-          rounded
-          outlined
-          onClick={() => navigate('/shopping_cart')}
-        />
+        <div className="relative">
+          <Button
+            className="!hidden md:!flex !text-[var(--primary-blue)] focus:!text-[var(--primary-blue)] !text-12 !p-[1.4rem] focus:!shadow-[0_0_0_0.2rem_rgba(99,102,241,0.5)]"
+            icon="pi pi-shopping-cart"
+            rounded
+            outlined
+            onClick={() => navigate('/shopping_cart')}
+          />
+          <span className="absolute left-0 bg-red-600 bottom-0 w-4 h-4 text-[0.6rem] text-white rounded-2xl flex items-center justify-center">
+            {cartItems?.length || 0}
+          </span>
+        </div>
+
         <Button
           className="!hidden md:!flex !text-[var(--primary-blue)] focus:!text-[var(--primary-blue)] !text-12 !p-[1.4rem] focus:!shadow-[0_0_0_0.2rem_rgba(99,102,241,0.5)]"
           icon="pi pi-heart"

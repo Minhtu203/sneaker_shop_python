@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { deleteItemFromCart, getItemsInCart } from '@/api/shoppingCartApi';
+import { deleteItemFromCart } from '@/api/shoppingCartApi';
 import { Textz } from '@/components/base/Textz';
 import { formattedDate } from '@/components/uiCore/Data/DataTable';
 import { Button } from '@/components/uiCore/index';
@@ -10,6 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
+import { useCartStore } from '@/store/cartStore';
 
 export default function ShoppingCart({ toast }) {
   useEffect(() => {
@@ -19,29 +19,16 @@ export default function ShoppingCart({ toast }) {
   let axiosJWT = CreateAxios(userInfo, setUserInfo);
   const navigate = useNavigate();
 
-  const [allShoes, setAllShoes] = useState([]);
-  const [updateCart, setUpdateCart] = useState({});
-
   const [checkout, setCheckout] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await getItemsInCart(axiosJWT, userInfo?.accessToken);
-        setAllShoes(res.data?.cartItems);
-      } catch (error) {
-        console.error(error.message || error);
-      }
-    };
-    fetchData();
-  }, [updateCart]);
+  const { cartItems, removeLocal } = useCartStore();
 
   const handleRemoveItem = async (payload) => {
     const res = await deleteItemFromCart(axiosJWT, userInfo?.accessToken, payload);
+
+    if (res.data.success === true) removeLocal(payload);
     Toastz(res.data, toast);
-    setUpdateCart(res.data);
   };
 
-  // const [total, setTotal] = useState(0);
   const handleCheckout = () => {
     console.log(2222);
   };
@@ -49,15 +36,16 @@ export default function ShoppingCart({ toast }) {
   const total = checkout?.reduce((sum, item) => sum + Number(item?.price) * Number(item?.quantity), 0);
   const [delivery, setDelivery] = useState(0);
   useEffect(() => {
-    if (total > 2000000) setDelivery(30000);
+    if (total < 5000000 && total > 0) setDelivery(30000);
+    else if (total === 0) setDelivery(0);
     else setDelivery(0);
   }, [total]);
 
   return (
     <div className="flex flex-col md:flex-row w-full pb-8">
       <div className="md:w-6/10 p-4 flex flex-col gap-2">
-        <Textz className="font-bold">Total: {allShoes?.items?.length || 0} items</Textz>
-        {allShoes?.items?.map((shoe, index) => (
+        <Textz className="font-bold">Total: {cartItems?.length || 0} items</Textz>
+        {cartItems?.map((shoe, index) => (
           <CardCart
             key={index}
             data={shoe}
@@ -138,19 +126,21 @@ const CardCart = (props) => {
   const { className, data, handleRemoveItem, setCheckout, ...prop } = props;
   const navigate = useNavigate();
 
+  // console.log(111111, data?.name);
+
   return (
     <div
       {...prop}
       className={`${className} md:h-42 w-full bg-white rounded-2xl grid grid-cols-9 items-center px-4 py-4 md:py-2 gap-4`}
     >
       <img
-        onClick={() => navigate(`/shoes/${data?.productId?._id}`)}
+        onClick={() => navigate(`/shoes/${data?.productId?._id ? data?.productId?._id : data?.productId}`)}
         alt="Shoes"
         src={data?.color?.img?.[0]}
         className="w-32 h-32 col-span-2 object-cover rounded-2xl cursor-pointer"
       />
       <div className="flex flex-col">
-        <Textz>{data?.productId?.name}</Textz>
+        <Textz>{data?.name}</Textz>
         <Textz className="text-xs">{data?.productId?.brand}</Textz>
       </div>
       <Textz className="text-[0.9rem] col-span-2">
@@ -172,7 +162,7 @@ const CardCart = (props) => {
         <Button
           onClick={() => {
             handleRemoveItem({
-              productId: data?.productId?._id,
+              productId: data?.productId,
               color: data?.color?.colorName,
               size: data?.size,
             });

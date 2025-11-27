@@ -10,6 +10,7 @@ import { SizeGuideIcon } from '@/assets/icon/sizeGuide';
 import { addItemToCart } from '@/api/shoppingCartApi';
 import { Toastz } from '@/utils/Toast';
 import { addItemToFavourites } from '@/api/favourites/favouritesApi';
+import { useCartStore } from '@/store/cartStore';
 
 const ShoeGallery = ({ shoeImg, props }) => {
   const itemTemplate = (item) => {
@@ -71,6 +72,8 @@ export default function ShoesDetail({ toast }) {
 
   const idScreenShoes = useParams();
   const [size, setSize] = useState(null);
+  const { setCartItems } = useCartStore();
+
   const handleAddToBag = async () => {
     const payload = {
       productId: idScreenShoes.id,
@@ -80,6 +83,7 @@ export default function ShoesDetail({ toast }) {
     };
     const res = await addItemToCart(axiosJWT, userInfo?.accessToken, payload);
     Toastz(res.data, toast);
+    setCartItems(res.data.cart.items);
   };
 
   const handleFavourites = async () => {

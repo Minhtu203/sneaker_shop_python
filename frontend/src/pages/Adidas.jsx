@@ -1,37 +1,36 @@
-import { getAllJordanShoes } from '@/api/jordanApi';
 import { CreateAxios } from '@/lib/axios';
 import { useUserState } from '@/store/userState';
 import CardShoes from '@/utils/CardShoes';
 import { useEffect, useState } from 'react';
 import { WrapperShoes } from './Home';
 import Footer from '@/components/base/Footer';
+import { getAdidasShoes } from '@/api/adidasApi';
 
-function JordanShoes() {
+export default function Adidas() {
   useEffect(() => {
-    document.title = 'Jordan';
+    document.title = 'Adidas';
   }, []);
 
   const { userInfo, setUserInfo } = useUserState();
+  const [allShoes, setAllShoes] = useState([]);
   let axiosJWT = CreateAxios(userInfo, setUserInfo);
-  const [jordanShoes, setJordanShoes] = useState([]);
-
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchShoes = async () => {
       try {
-        const res = await getAllJordanShoes(axiosJWT, userInfo?.accessToken);
-        setJordanShoes(res);
+        const data = await getAdidasShoes(axiosJWT, userInfo?.accessToken);
+        setAllShoes(data);
       } catch (error) {
         console.error(error);
       }
     };
-    fetchData();
+    fetchShoes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="flex flex-col">
       <WrapperShoes>
-        {jordanShoes?.data?.data?.map((shoe) => (
+        {allShoes?.data?.data?.map((shoe) => (
           <CardShoes key={shoe._id} shoe={shoe} />
         ))}
       </WrapperShoes>
@@ -39,5 +38,3 @@ function JordanShoes() {
     </div>
   );
 }
-
-export default JordanShoes;

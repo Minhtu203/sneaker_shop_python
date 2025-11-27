@@ -144,6 +144,24 @@ export const shoesController = {
       });
     }
   },
+  // get brand Adidas shoes
+  getAdidasShoes: async (req, res) => {
+    try {
+      const jordanShoes = await Shoes.find({ brand: "Adidas" });
+      if (jordanShoes.length === 0) {
+        return res
+          .status(404)
+          .json({ success: false, message: "No product found" });
+      }
+      res.status(200).json({ success: true, data: jordanShoes });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message || error,
+      });
+    }
+  },
   // get brand Airmax shoes
   getAirmaxShoes: async (req, res) => {
     try {
@@ -165,11 +183,25 @@ export const shoesController = {
   // get is featured shoes
   getIsFeaturedShoes: async (req, res) => {
     try {
-      const featuredShoes = await Shoes.find({ isFeatured: "true" });
+      const { isFeatured, gender, price, sale } = req.query;
+      const query = {};
+      if (isFeatured) query.isFeatured = isFeatured;
+      if (gender) {
+        query.gender = gender;
+      }
+      if (price) {
+        const [min, max] = price.split("-").map(Number);
+        query.price = { $gte: min, $lte: max };
+      }
+      if (sale === "true") {
+        query["sale.sales"] = true;
+      }
+      const featuredShoes = await Shoes.find(query);
       if (featuredShoes.length === 0)
         return res
           .status(404)
           .json({ success: false, message: "No product found" });
+
       res.status(200).json({ success: true, data: featuredShoes });
     } catch (error) {
       res

@@ -33,6 +33,10 @@ const shoesScheme = new mongoose.Schema(
       count: { type: Number, default: 0 },
     },
     isFeatured: { type: Boolean, default: false },
+    sale: {
+      sales: { type: Boolean, default: false },
+      newPrice: { type: Number, default: 0 },
+    },
   },
   { timestamps: true }
 );

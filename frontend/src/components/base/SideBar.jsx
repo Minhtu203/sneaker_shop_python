@@ -3,8 +3,10 @@ import Button, { ButtonSidebar } from '../uiCore/Button/Button';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useUserState } from '@/store/userState';
+import { Checkbox, RadioButton } from '../uiCore/index';
+import { formatPrice } from '@/pages/ShoppingCart';
 
-function Sidebar({ toggleSidebar, setToggleSidebar }) {
+function Sidebar({ toggleSidebar, setToggleSidebar, filter }) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -18,9 +20,28 @@ function Sidebar({ toggleSidebar, setToggleSidebar }) {
   const location = useLocation();
   const { userInfo } = useUserState();
 
+  //filter
+  const categories = [{ name: 'Men' }, { name: 'Women' }, { name: 'Unisex' }];
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [visibleGender, setVisibleGender] = useState(false);
+
+  const price = [
+    { name: `Under ${formatPrice(1000000)}`, key: 1 },
+    { name: `${formatPrice(1000000)} - ${formatPrice(2000000)}`, key: 2 },
+    { name: `${formatPrice(2000000)} - ${formatPrice(4999999)}`, key: 3 },
+    { name: `Over ${formatPrice(5000000)}`, key: 4 },
+  ];
+  const [selectedPrice, setSelectedPrice] = useState(null);
+  const [visiblePrice, setVisiblePrice] = useState(false);
+
+  const [selectedSale, setSelectedSale] = useState(false);
+  const [visibleSale, setVisibleSale] = useState(false);
+
+  // console.log(111, filter);
+
   return (
     <div
-      className={`border-r border-gray-300 bg-white h-screen flex flex-col overflow-auto items-center py-8 gap-4 
+      className={`border-r border-gray-300 bg-white h-screen flex flex-col overflow-auto items-center py-8 pb-20 gap-4 
           fixed top-0 left-0 z-50 transition-all duration-500 ease-in-out scrollbar-hide
           ${toggleSidebar ? 'w-[100%] md:w-[var(--width-sidebar)] translate-x-0' : 'w-[100%] md:w-[var(--width-sidebar)] -translate-x-full'}`}
     >
@@ -40,11 +61,11 @@ function Sidebar({ toggleSidebar, setToggleSidebar }) {
       />
       <style>
         {`
-    @keyframes spin-slow {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-  `}
+          @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
+        `}
       </style>
 
       <div className="w-full flex flex-col gap-3">
@@ -53,7 +74,7 @@ function Sidebar({ toggleSidebar, setToggleSidebar }) {
           onClick={() => navigate('/')}
           className={`${location.pathname === '/' ? 'text-[var(--primary-yellow)] !bg-[var(--primary-blue)]' : ''}`}
         >
-          Home
+          New & Featured
         </ButtonSidebar>
         <ButtonSidebar
           onClick={() => navigate('/shoes/jordan')}
@@ -76,6 +97,13 @@ function Sidebar({ toggleSidebar, setToggleSidebar }) {
         >
           Nike
         </ButtonSidebar>
+        <ButtonSidebar
+          onClick={() => navigate('/shoes/adidas')}
+          noIcon={true}
+          className={`${location.pathname === '/shoes/adidas' ? 'text-[var(--primary-yellow)] !bg-[var(--primary-blue)]' : ''}`}
+        >
+          Adidas
+        </ButtonSidebar>
         <ButtonSidebar onClick={() => setSport(!sport)}>Sport</ButtonSidebar>
         <ShowNavSidebar
           show={sport}
@@ -96,6 +124,62 @@ function Sidebar({ toggleSidebar, setToggleSidebar }) {
             Only Admin
           </ButtonSidebar>
         )}
+
+        {/* filter */}
+        <div className="w-full flex flex-col gap-2 mt-8">
+          <ButtonFilter onClick={() => setVisibleGender(!visibleGender)}>Gender</ButtonFilter>
+          <div className={`flex flex-col gap-3 ml-8 ${visibleGender ? 'slide-down max-h-200' : 'slide-up hidden'}`}>
+            {categories.map((category, index) => {
+              return (
+                <div key={index} className="flex align-items-center">
+                  <RadioButton
+                    inputId={index}
+                    name="sales"
+                    value={category}
+                    onChange={(e) => setSelectedCategory(e.value.name)}
+                    checked={selectedCategory === category.name}
+                    label={category.name}
+                  />
+                </div>
+              );
+            })}
+          </div>
+
+          <ButtonFilter onClick={() => setVisiblePrice(!visiblePrice)}>Shop By Price</ButtonFilter>
+          <div className={`flex flex-col gap-3 ml-8 ${visiblePrice ? 'slide-down max-h-200' : 'slide-up hidden'}`}>
+            {price.map((p) => {
+              return (
+                <div key={p.key} className="flex align-items-center">
+                  <RadioButton
+                    inputId={p.key}
+                    name="price"
+                    value={p}
+                    onChange={(e) => setSelectedPrice(e.value)}
+                    checked={selectedPrice?.key === p.key}
+                    label={p.name}
+                  />
+                </div>
+              );
+            })}
+          </div>
+
+          <ButtonFilter onClick={() => setVisibleSale(!visibleSale)}>Sale & Offers</ButtonFilter>
+          <div className={`flex flex-col gap-3 ml-8 ${visibleSale ? 'slide-down max-h-200' : 'slide-up hidden'}`}>
+            <div className="flex align-items-center items-center">
+              <Checkbox
+                inputId="sale"
+                onChange={(e) => {
+                  setSelectedSale(e.checked);
+                  // console.log(2222, selectedSale);
+                }}
+                checked={selectedSale}
+              />
+              <label htmlFor="sale" className="ml-2 font-[600] text-[var(--primary-blue)]">
+                Sale
+              </label>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -131,6 +215,32 @@ const ShowNavSidebar = (props) => {
       {...prop}
     >
       {props.children}
+    </div>
+  );
+};
+
+const ButtonFilter = (props) => {
+  const { className, onClick, ...prop } = props;
+  const [rotated, setRotated] = useState(false);
+  const handleClick = (e) => {
+    setRotated(!rotated);
+    if (onClick) onClick(e);
+  };
+  return (
+    <div className="flex flex-col items-center justify-center gap-2">
+      {/* <span className="w-[80%] h-[1px] bg-gray-300 rounded-2xl" /> */}
+      <button
+        onClick={handleClick}
+        className={`${className} px-4 flex justify-between ml-auto items-center w-full h-12 text-[var(--primary-blue)] bg-white hover:bg-[var(--primary-blue)]
+       hover:text-[var(--primary-yellow)] hover:scale-110 hover:cursor-pointer focus:text-[var(--primary-yellow)] !transition-all !duration-200 font-bold text-md`}
+        {...prop}
+      >
+        {props.children}
+
+        <span
+          className={`pi pi-angle-up transform transition-transform duration-300 ${rotated ? 'rotate-180' : 'rotate-0'}`}
+        />
+      </button>
     </div>
   );
 };

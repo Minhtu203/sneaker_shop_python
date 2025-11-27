@@ -1,8 +1,6 @@
 import Header from '@/components/base/Header';
 import Sidebar from '@/components/base/SideBar';
-import { Button } from '@/components/uiCore/index';
 import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
 
 function DefaultLayout(props) {
   const { className, ...prop } = props;
@@ -16,7 +14,7 @@ function DefaultLayout(props) {
         <div
           className={`overflow-auto flex-1
              ${toggleSidebar ? 'ml-[var(--width-sidebar)]' : 'ml-0'}
-           transition-all duration-500 ease-in-out overflow-auto`}
+           transition-all duration-500 ease-in-out overflow-auto flex flex-col`}
         >
           {props.children}
         </div>

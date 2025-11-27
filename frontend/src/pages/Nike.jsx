@@ -4,6 +4,8 @@ import { useUserState } from '@/store/userState';
 import CardShoes from '@/utils/CardShoes';
 import { useEffect, useState } from 'react';
 import { WrapperShoes } from './Home';
+import Footer from '@/components/base/Footer';
+
 export default function Nike() {
   useEffect(() => {
     document.title = 'Nike';
@@ -26,10 +28,13 @@ export default function Nike() {
   }, []);
 
   return (
-    <WrapperShoes>
-      {allShoes?.data?.data?.map((shoe) => (
-        <CardShoes key={shoe._id} shoe={shoe} />
-      ))}
-    </WrapperShoes>
+    <div className="flex flex-col">
+      <WrapperShoes>
+        {allShoes?.data?.data?.map((shoe) => (
+          <CardShoes key={shoe._id} shoe={shoe} />
+        ))}
+      </WrapperShoes>
+      <Footer />
+    </div>
   );
 }

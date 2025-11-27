@@ -18,3 +18,4 @@ export { default as InputTextarea } from './Form/InputTextarea';
 export { default as InputNumber } from './Form/InputNumber';
 export { default as ToggleButton } from './Form/ToggleButton';
 export { default as ToggleButtonz } from './Button/ToggleButtonz';
+export { default as Checkbox } from './Form/CheckBox';
