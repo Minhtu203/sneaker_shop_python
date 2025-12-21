@@ -136,7 +136,7 @@ function Header({ toggleSidebar, setToggleSidebar }) {
             outlined
             onClick={() => navigate('/shopping_cart')}
           />
-          <span className="absolute left-0 bg-red-600 bottom-0 w-4 h-4 text-[0.6rem] text-white rounded-2xl flex items-center justify-center">
+          <span className="hidden md:flex absolute left-0 bg-red-600 bottom-0 w-4 h-4 text-[0.6rem] text-white rounded-2xl items-center justify-center">
             {cartItems?.length || 0}
           </span>
         </div>
