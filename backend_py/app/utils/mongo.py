@@ -1,14 +1,20 @@
 from datetime import datetime
 from typing import Any, Dict
 
-from bson import ObjectId
+from bson import ObjectId, Decimal128
 
 
 def _serialize_value(value: Any) -> Any:
+    """
+    Chuyển các kiểu MongoDB/BSON đặc biệt sang kiểu JSON-serializable.
+    """
     if isinstance(value, ObjectId):
         return str(value)
     if isinstance(value, datetime):
         return value.isoformat()
+    if isinstance(value, Decimal128):
+        # chuyển Decimal128 -> float (hoặc str nếu muốn giữ chính xác tuyệt đối)
+        return float(value.to_decimal())
     if isinstance(value, list):
         return [_serialize_value(v) for v in value]
     if isinstance(value, dict):

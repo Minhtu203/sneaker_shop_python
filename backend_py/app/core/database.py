@@ -11,7 +11,6 @@ db: AsyncIOMotorDatabase | None = None
 
 def _get_db_name_from_uri(uri: str) -> str:
     parsed = urlparse(uri)
-    # mongodb URI có dạng mongodb+srv://user:pass@host/dbname?... => path = "/dbname"
     if parsed.path and parsed.path != "/":
         return parsed.path.lstrip("/")
     # fallback
@@ -23,11 +22,22 @@ async def connect_to_mongo() -> None:
     if mongo_client is None:
         try:
             print(f"🔄 Connecting to MongoDB at {settings.MONGO_URI}...")
+
+            mongo_kwargs: dict = {
+                "serverSelectionTimeoutMS": 5000,  # Timeout 5 giây
+            }
+            
+            if settings.MONGO_URI.startswith("mongodb+srv://"):
+                mongo_kwargs.update(
+                    {
+                        "tls": True,
+                        "tlsAllowInvalidCertificates": False,
+                    }
+                )
+
             mongo_client = AsyncIOMotorClient(
-                settings.MONGO_URI, 
-                serverSelectionTimeoutMS=5000,  # Timeout 5 giây
-                tls=True, 
-                tlsAllowInvalidCertificates=False
+                settings.MONGO_URI,
+                **mongo_kwargs,
             )
             # Test connection
             await mongo_client.admin.command('ping')
