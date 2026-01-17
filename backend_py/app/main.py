@@ -19,25 +19,25 @@ load_dotenv()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
-    print("🚀 Starting application...")
+    print("Starting application...")
     try:
         await connect_to_mongo()
     except Exception as e:
-        print(f"⚠️  MongoDB connection failed, but continuing: {e}")
+        print(f"MongoDB connection failed, but continuing: {e}")
     
     try:
         await init_redis()
     except Exception as e:
-        print(f"⚠️  Redis connection failed, but continuing: {e}")
+        print(f"Redis connection failed, but continuing: {e}")
     
-    print("✅ Application startup complete")
+    print("Application startup complete")
     yield
     
     # Shutdown
-    print("🛑 Shutting down application...")
+    print("Shutting down application...")
     await close_mongo_connection()
     await close_redis()
-    print("✅ Application shutdown complete")
+    print("Application shutdown complete")
 
 
 app = FastAPI(title="Sneaker Shop Backend (Python)", lifespan=lifespan)
@@ -47,7 +47,7 @@ app = FastAPI(title="Sneaker Shop Backend (Python)", lifespan=lifespan)
 async def global_exception_handler(request: Request, exc: Exception):
     error_detail = str(exc)
     error_traceback = traceback.format_exc()
-    print(f"❌ Unhandled exception: {error_detail}")
+    print(f"Unhandled exception: {error_detail}")
     print(f"Traceback:\n{error_traceback}")
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

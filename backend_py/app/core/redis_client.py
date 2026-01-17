@@ -18,11 +18,11 @@ async def init_redis() -> None:
             )
             await client.ping()
             redis_client = client # Gán lại cho biến toàn cục
-            print(f"✅ Connect to Redis server successfully at {settings.REDIS_HOST}:{settings.REDIS_PORT}")
+            print(f"Connect to Redis server successfully at {settings.REDIS_HOST}:{settings.REDIS_PORT}")
         except Exception as e:
-            print(f"❌ Connect to Redis server failed: {e}")
-            print(f"   Redis config: host={settings.REDIS_HOST}, port={settings.REDIS_PORT}")
-            print("   ⚠️  App will continue but Redis features will not work until Redis is available")
+            print(f"Connect to Redis server failed: {e}")
+            print(f"Redis config: host={settings.REDIS_HOST}, port={settings.REDIS_PORT}")
+            print("App will continue but Redis features will not work until Redis is available")
             # Không raise exception để app vẫn có thể khởi động
             # redis_client sẽ vẫn là None và các endpoint sẽ kiểm tra
         
@@ -51,10 +51,10 @@ async def ensure_redis_connected() -> bool:
         )
         await client.ping()
         redis_client = client
-        print(f"✅ Redis reconnected successfully at {settings.REDIS_HOST}:{settings.REDIS_PORT}")
+        print(f"Redis reconnected successfully at {settings.REDIS_HOST}:{settings.REDIS_PORT}")
         return True
     except Exception as e:
-        print(f"❌ Redis reconnection failed: {e}")
+        print(f"Redis reconnection failed: {e}")
         return False
 
 def get_redis_client() -> Redis:
